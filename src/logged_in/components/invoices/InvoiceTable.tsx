@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -100,7 +101,56 @@ export default function InvoiceTable<
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column, index) => {
-                      const value = row[column.id];
+                      const value: any = row[column.id];
+                      if (column.id === "status") {
+                        switch (value) {
+                          case "Unverified":
+                            return (
+                              <TableCell key={index} align={column.align}>
+                                <Chip
+                                  label={value}
+                                  style={{
+                                    backgroundColor: "#FF042B",
+                                    color: "white",
+                                  }}
+                                />
+                              </TableCell>
+                            );
+
+                          case "Verified":
+                            return (
+                              <TableCell key={index} align={column.align}>
+                                <Chip
+                                  label={value}
+                                  style={{
+                                    backgroundColor: "#219653",
+                                    color: "white",
+                                  }}
+                                />
+                              </TableCell>
+                            );
+
+                          case "Pending":
+                            return (
+                              <TableCell key={index} align={column.align}>
+                                <Chip
+                                  label={value}
+                                  style={{
+                                    backgroundColor: "#FFBA0E",
+                                    color: "white",
+                                  }}
+                                />
+                              </TableCell>
+                            );
+
+                          default:
+                            return (
+                              <TableCell key={index} align={column.align}>
+                                <Chip label={value} />
+                              </TableCell>
+                            );
+                        }
+                      }
                       return (
                         <TableCell
                           // key={column.id}

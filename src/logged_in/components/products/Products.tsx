@@ -1,12 +1,11 @@
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import React, { Fragment, useEffect, useState } from "react";
-import MenuComp from "../../../shared/components/MenuComp";
+import { useEffect, useState } from "react";
 import SearchField from "../../../shared/components/SearchField";
-import SnackBar from "../../../shared/components/SnackBar";
-import TableComp from "../../../shared/components/TableComp";
+
 import TableFilter from "../../../shared/components/TableFilter";
+import Table from "./ProductsTable";
 import {
   getComparator,
   Order,
@@ -15,9 +14,12 @@ import {
 import Product from "../../../shared/interfaces/Product";
 import ProductTableColumn from "../../../shared/interfaces/ProductTableColumn";
 import MobxProductStore from "../../../shared/stores/ProductStore";
-import { products } from "../../dummy_data/Products";
-import { ActionsComp as ChildComp } from "./ActionsComp";
+import { products } from "../../dummy_data/dummy_data";
+import ProductMenuComp from "./ProductMenuComp";
 import SingleProductDialog from "./SingleProductDialog";
+import { useHistory } from "react-router-dom";
+import PageToolbar from "../../../shared/components/PageToolbar";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -44,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 // Table Component Properties
 const columns: ProductTableColumn[] = [
+  { id: "status", label: "", minWidth: 50 },
   { id: "name", label: "Lube Name", minWidth: 170 },
   { id: "description", label: "Description", minWidth: 100 },
 ];
@@ -51,16 +54,17 @@ const columns: ProductTableColumn[] = [
 const Products = () => {
   const classes = useStyles();
   const store = MobxProductStore;
+  const history = useHistory();
   // TableFilter
   const [activeFilters, setActiveFilters] = useState(0);
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Product>("description");
 
   const arrayOfLabels = (): (keyof Product)[] => {
-    return ["name", "description"];
+    return ["status", "name", "description"];
   };
 
-  const rows: Product[] = stableSort(products, getComparator(order, orderBy));
+  // const rows: Product[] = stableSort(products, getComparator(order, orderBy));
 
   useEffect(() => {
     document.title = "NAMCOR - Products";
@@ -80,18 +84,20 @@ const Products = () => {
     }
   };
 
-  // Single product close handler
-  // const handleSingleProductDialogClose = () => {
-  //   // Close dialog
-  //   store.setClose();
-  //   // Clear search
-  // };
-
   return (
     <Box className={classes.root}>
-      <Typography variant="h4" component="h2">
-        Products
-      </Typography>
+      <PageToolbar
+        title="Products"
+        buttons={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push("/admin/create-product")}
+          >
+            + New Product
+          </Button>
+        }
+      />
 
       <Box className={classes.flexCenter}>
         <SearchField
@@ -116,13 +122,9 @@ const Products = () => {
       </Box>
 
       <Box className={classes.tableContainer}>
-        <TableComp columns={columns} rows={rows}>
-          <ChildComp
-            classes={classes}
-            row={products[1]}
-            onViewProduct={setSingleProductData}
-          />
-        </TableComp>
+        <Table columns={columns} rows={products}>
+          <ProductMenuComp onViewProduct={setSingleProductData} />
+        </Table>
         <SingleProductDialog store={store} onClose={() => store.setClose()} />
       </Box>
     </Box>

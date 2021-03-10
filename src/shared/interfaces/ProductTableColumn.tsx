@@ -1,5 +1,5 @@
 interface ProductTableColumn {
-  id: "name" | "description";
+  id: "name" | "description" | "status";
   label: string;
   minWidth?: number;
   align?: "right";

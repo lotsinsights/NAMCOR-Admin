@@ -15,6 +15,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CompanyDetails from "./CompanyDetails";
 import InvoiceContent from "./InvoiceContent";
 import InvoicePOP from "./InvoicePOP";
+import PageToolbar from "../../../shared/components/PageToolbar";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
   dspFlex: {
     display: "flex",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
   },
 
   margins: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: 12,
   },
   accordionContent: {
-    display: "block",
+    // display: "block",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -68,6 +69,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   // Invoice Table
+
+  // POP
+  dspPop: {
+    margin: theme.spacing(1),
+  },
 }));
 
 const CreateInvoice = () => {
@@ -80,9 +86,23 @@ const CreateInvoice = () => {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="h4" component="h2">
-        Create Invoice
-      </Typography>
+      <PageToolbar
+        title="Create an Invoice"
+        buttons={
+          <>
+            <Button className={classes.margins} variant="text" color="primary">
+              Save to Draft
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              // onClick={() => history.push("/admin/products")}
+            >
+              Save and Send
+            </Button>
+          </>
+        }
+      />
 
       <CompanyDetails classes={classes} />
 

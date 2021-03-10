@@ -30,13 +30,6 @@ const styles = (theme: any) => ({
     backgroundColor: "#F2F2F2",
     border: 0,
   },
-  // Yellow version
-  // paper: {
-  //   width: drawerWidth,
-  //   backgroundColor: "#FFBA0E",
-  //   border: 0,
-  // },
-
   toolbar: {
     display: "flex",
     alignItems: "center",
@@ -99,20 +92,21 @@ const Navbar = (props: Props) => {
       name: "Products",
     },
     {
-      link: "/admin/cart",
-      icon: <ShoppingBasketOutlined fontSize="small" />,
-      name: "Cart",
-    },
-    {
-      link: "/admin/invoices",
+      link: "/admin/requests",
       icon: <ReceiptOutlined fontSize="small" />,
-      name: "Invoices",
+      name: "Requests",
     },
     {
       link: "/admin/quotes",
       icon: <ReceiptOutlined fontSize="small" />,
       name: "Quotes",
     },
+    {
+      link: "/admin/invoices",
+      icon: <ReceiptOutlined fontSize="small" />,
+      name: "Invoices",
+    },
+
     {
       link: "/admin/orders",
       icon: <ReceiptOutlined fontSize="small" />,

@@ -43,15 +43,7 @@ interface Props {
 
 const TableFilter = (props: Props) => {
   const classes = useStyles();
-  const {
-    activeFilters,
-    setActiveFilters,
-    order,
-    setOrder,
-    // label,
-    setLabel,
-    arrayOfLabels,
-  } = props;
+  const { setOrder, setLabel, arrayOfLabels } = props;
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -61,7 +53,7 @@ const TableFilter = (props: Props) => {
 
   return (
     <Paper className={classes.root}>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -83,20 +75,6 @@ const TableFilter = (props: Props) => {
                 />
               </Grid>
             ))}
-            {/* <Grid item xs={3}>
-              <InputSelect
-                className={classes.paper}
-                label={"Sort by order"}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <InputSelect
-                className={classes.paper}
-                label={"Sort by price"}
-                onChange={handleInputChange}
-              />
-            </Grid> */}
           </Grid>
         </AccordionDetails>
       </Accordion>

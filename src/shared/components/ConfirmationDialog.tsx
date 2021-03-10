@@ -5,47 +5,42 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { observer } from "mobx-react";
 
-export default function ConfirmationDialog() {
-  const [open, setOpen] = React.useState(false);
+const DeleteConfirmationDialog = observer((props: any) => {
+  const { store } = props;
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleDisagree = () => {
+    store.closeDeleteConfirmationDialog();
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleAgree = () => {
+    store.closeDeleteConfirmationDialog();
   };
 
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={store.openDeleteConfirmation}
+      onClose={() => store.closeDeleteConfirmationDialog()}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Delete this item?</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Delete this item?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleDisagree} color="primary">
+          Disagree
+        </Button>
+        <Button onClick={handleAgree} color="primary" autoFocus>
+          Agree
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
-}
+});
+
+export default DeleteConfirmationDialog;

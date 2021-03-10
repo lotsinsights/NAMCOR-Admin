@@ -4,7 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CreateInvoiceTable from "./CreateInvoiceTable";
-import { addresses } from "../../dummy_data/Addresses";
+import { addresses } from "../../dummy_data/dummy_data";
 
 const InvoiceContent = (props: any) => {
   const { classes } = props;

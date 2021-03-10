@@ -39,7 +39,7 @@ const SingleProductDialog = observer((props: any) => {
 
   const { store, onClose } = props;
   const content = store.getContent;
-  const { name, description, thumbnail } = content;
+  const { name, description, status, price } = content;
 
   return (
     <Dialog
@@ -48,15 +48,30 @@ const SingleProductDialog = observer((props: any) => {
       onClose={onClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="product-details">{name}</DialogTitle>
+      <DialogTitle id="product-details">Product Details</DialogTitle>
       <DialogContent>
-        <Box className={classes.flexCenter}>
+        {/* <Box className={classes.flexCenter}>
           <img className={classes.thumbnail} src={thumbnail} alt="Alt" />
-        </Box>
-        <Typography variant="h6" component="h6">
+        </Box> */}
+        <Typography variant="subtitle1" component="h6">
+          Product Name
+        </Typography>
+        <DialogContentText>{name}</DialogContentText>
+
+        <Typography variant="subtitle1" component="h6">
           Description
         </Typography>
         <DialogContentText>{description}</DialogContentText>
+
+        <Typography variant="subtitle1" component="h6">
+          Status
+        </Typography>
+        <DialogContentText>{status}</DialogContentText>
+
+        <Typography variant="subtitle1" component="h6">
+          Price per litre
+        </Typography>
+        <DialogContentText>N${price}.00</DialogContentText>
       </DialogContent>
 
       <DialogActions>
@@ -64,7 +79,7 @@ const SingleProductDialog = observer((props: any) => {
           Close
         </Button>
         <Button onClick={onClose} color="primary" variant="contained" autoFocus>
-          Add to Cart
+          Edit
         </Button>
       </DialogActions>
     </Dialog>

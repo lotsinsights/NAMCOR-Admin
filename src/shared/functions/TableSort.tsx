@@ -13,16 +13,16 @@ export type Order = "asc" | "desc";
 export function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: { [key in Key]: any }, b: { [key in Key]: any }) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+export function stableSort<T>(
+  array: T[],
+  comparator: (a: T, b: T) => number
+): T[] {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);

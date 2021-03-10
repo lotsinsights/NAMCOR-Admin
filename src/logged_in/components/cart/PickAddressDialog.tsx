@@ -10,7 +10,7 @@ import { observer } from "mobx-react";
 import Box from "@material-ui/core/Box";
 import { Typography } from "@material-ui/core";
 import AddressOptionCard from "./AddressOptionCard";
-import { addresses } from "../../dummy_data/Addresses";
+import { addresses } from "../../dummy_data/dummy_data";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

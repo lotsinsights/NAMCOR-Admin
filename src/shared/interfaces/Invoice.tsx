@@ -4,7 +4,7 @@ interface Invoice {
   invoiceNumber: string;
   issueDate: string;
   dueDate: string;
-  status: "Paid" | "Unpaid" | "Sent";
+  status: "Verified" | "Pending" | "Unverified";
   description?: string;
   amount?: number;
   popFiles?: any[];

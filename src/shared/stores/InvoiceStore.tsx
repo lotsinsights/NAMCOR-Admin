@@ -7,7 +7,7 @@ class InvoiceStore {
     id: "invoice1",
     customerName: "NAMPOWER",
     invoiceNumber: "21dfaww",
-    status: "Paid",
+    status: "Verified",
     dueDate: new Date(2022, 0, 1).toDateString(),
     issueDate: new Date().toDateString(),
   };

@@ -3,9 +3,12 @@ import Product from "../interfaces/Product";
 
 class ProductStore {
   open: boolean = false;
+  openDeleteConfirmation: boolean = false;
+  isEditProduct: boolean = false;
   content: Product = {
     id: "32cfdaradwewf2",
     name: "Petrol",
+    status: "Available",
     description:
       "It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
     price: 12.5,
@@ -24,9 +27,26 @@ class ProductStore {
     this.open = false;
   }
 
+  openDeleteConfirmationDialog() {
+    this.openDeleteConfirmation = true;
+  }
+  closeDeleteConfirmationDialog() {
+    this.openDeleteConfirmation = false;
+  }
+
   // Content functions
   setSingleProductContent(content: Product) {
     this.content = content;
+  }
+
+  // Set edit product to false
+  setIsEditProduct() {
+    this.isEditProduct = true;
+  }
+
+  // Clear edit product to false
+  clearIsEditProduct() {
+    this.isEditProduct = false;
   }
 
   get getContent() {

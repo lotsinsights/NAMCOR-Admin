@@ -40,7 +40,7 @@ export default function ActiveUser() {
       color="primary"
       className={clsx(classes.root, classes.pos)}
     >
-      <Typography className={classes.title}>CLIENT PORTAL</Typography>
+      <Typography className={classes.title}>ADMIN PORTAL</Typography>
       <Typography className={classes.userName}>Silas Shongola</Typography>
     </Paper>
   );

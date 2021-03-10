@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -7,10 +6,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { observer } from "mobx-react";
-import Box from "@material-ui/core/Box";
-import { Typography } from "@material-ui/core";
-import AddressOptionCard from "./AddressOptionCard";
-import { addresses } from "../../dummy_data/Addresses";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme: Theme) => ({

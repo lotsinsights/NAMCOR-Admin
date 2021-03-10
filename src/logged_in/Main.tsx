@@ -1,22 +1,22 @@
 import withStyles from "@material-ui/styles/withStyles";
 import React, { lazy, Suspense } from "react";
-
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import LinearIndeterminate from "../shared/components/LinearIndeterminate";
-import { Accounts } from "./components/accounts/Accounts";
-import { Chats } from "./components/chats/Chats";
+import FileViewerDialog from "../shared/components/FileViewerDialog";
 import Navbar from "./components/navigation/Navbar";
-import { Orders } from "./components/orders/Orders";
-import { Settings } from "./components/settings/Settings";
+import FeedbackDialog from "../shared/components/FeedbackDialog";
+import FileUploadDialog from "../shared/components/FileUploadDialog";
 
 const styles = (theme: any) => ({
   root: {
     display: "flex",
+    height: "100%",
   },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     width: "100%",
+    height: "100%",
     // padding: theme.spacing(3),
   },
 });
@@ -25,6 +25,7 @@ const styles = (theme: any) => ({
 const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
 const Quotes = lazy(() => import("./components/quotes/Quotes"));
 const Products = lazy(() => import("./components/products/Products"));
+const CreateProduct = lazy(() => import("./components/products/CreateProduct"));
 const Invoices = lazy(() => import("./components/invoices/Invoices"));
 const InvoiceDetails = lazy(
   () => import("./components/invoices/InvoiceDetails")
@@ -32,7 +33,17 @@ const InvoiceDetails = lazy(
 const CreateInvoice = lazy(
   () => import("./components/create_invoice/CreateInvoice")
 );
-const Cart = lazy(() => import("./components/cart/Cart"));
+const QuoteRequests = lazy(
+  () => import("./components/quote_requests/QuoteRequests")
+);
+const Orders = lazy(() => import("./components/orders/Orders"));
+const SalesPurchaseDetails = lazy(
+  () => import("../shared/components/SalesPurchaseDetails")
+);
+const Settings = lazy(() => import("./components/settings/Settings"));
+const Accounts = lazy(() => import("./components/accounts/Accounts"));
+const Chats = lazy(() => import("./components/chats/Chats"));
+const CreateAccount = lazy(() => import("./components/accounts/CreateAccount"));
 
 interface Props {
   classes: any;
@@ -61,9 +72,14 @@ function Main(props: Props) {
               <Products />
             </Suspense>
           </Route>
-          <Route exact path={`${path}/cart`}>
+          <Route exact path={`${path}/create-product`}>
             <Suspense fallback={<LinearIndeterminate />}>
-              <Cart />
+              <CreateProduct />
+            </Suspense>
+          </Route>
+          <Route exact path={`${path}/requests`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <QuoteRequests />
             </Suspense>
           </Route>
           <Route exact path={`${path}/quotes`}>
@@ -81,6 +97,11 @@ function Main(props: Props) {
               <Accounts />
             </Suspense>
           </Route>
+          <Route exact path={`${path}/create-account`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <CreateAccount />
+            </Suspense>
+          </Route>
           <Route exact path={`${path}/invoices`}>
             <Suspense fallback={<LinearIndeterminate />}>
               <Invoices />
@@ -96,6 +117,11 @@ function Main(props: Props) {
               <CreateInvoice />
             </Suspense>
           </Route>
+          <Route exact path={`${path}/sales-purchase-details`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <SalesPurchaseDetails />
+            </Suspense>
+          </Route>
           <Route exact path={`${path}/settings`}>
             <Suspense fallback={<LinearIndeterminate />}>
               <Settings />
@@ -106,6 +132,11 @@ function Main(props: Props) {
           </Route>
         </Switch>
       </main>
+
+      {/* Dialogs */}
+      <FileViewerDialog />
+      <FeedbackDialog />
+      <FileUploadDialog />
     </div>
   );
 }
