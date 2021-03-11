@@ -5,15 +5,17 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { AssessmentOutlined, ShoppingBasketOutlined } from "@material-ui/icons";
+import { AssessmentOutlined } from "@material-ui/icons";
 import { StoreOutlined } from "@material-ui/icons";
 import { ReceiptOutlined } from "@material-ui/icons";
 import { SupervisorAccountOutlined } from "@material-ui/icons";
 import { SettingsOutlined } from "@material-ui/icons";
 import { ChatOutlined } from "@material-ui/icons";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import ActiveUser from "./ActiveUser";
 import { NavLink, useRouteMatch } from "react-router-dom";
+import { Collapse } from "@material-ui/core";
+import clsx from "clsx";
 
 const drawerWidth = 240;
 
@@ -66,6 +68,27 @@ const styles = (theme: any) => ({
       backgroundColor: theme.palette.primary.main,
     },
   },
+  activeNestedTab: {
+    // textDecoration: "underline",
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      left: 20,
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      backgroundColor: theme.palette.primary.main,
+    },
+    "&::after": {
+      display: "none",
+      // backgroundColor: grey[400],
+    },
+  },
+  nested: {
+    paddingLeft: theme.spacing(9),
+  },
 });
 
 interface Props {
@@ -102,15 +125,26 @@ const Navbar = (props: Props) => {
       name: "Quotes",
     },
     {
-      link: "/admin/invoices",
-      icon: <ReceiptOutlined fontSize="small" />,
-      name: "Invoices",
-    },
-
-    {
       link: "/admin/orders",
       icon: <ReceiptOutlined fontSize="small" />,
       name: "Orders",
+      nested: [
+        {
+          link: "/admin/orders/purchase",
+          icon: <ReceiptOutlined fontSize="small" />,
+          name: "Purchase",
+        },
+        {
+          link: "/admin/orders/sales",
+          icon: <ReceiptOutlined fontSize="small" />,
+          name: "Sales",
+        },
+      ],
+    },
+    {
+      link: "/admin/invoices",
+      icon: <ReceiptOutlined fontSize="small" />,
+      name: "Invoices",
     },
     {
       link: "/admin/accounts",
@@ -142,20 +176,50 @@ const Navbar = (props: Props) => {
 
       <List>
         {navItems.map((element, index) => (
-          <NavLink
-            to={element.link}
-            activeClassName={classes.activeTab}
-            className={classes.removeTextDecoration}
-            key={index}
-            ref={(node) => {
-              links.current[index] = node;
-            }}
-          >
-            <ListItem button className={classes.listItem}>
-              <ListItemIcon>{element.icon}</ListItemIcon>
-              <ListItemText primary={element.name} />
-            </ListItem>
-          </NavLink>
+          <Fragment key={index}>
+            <NavLink
+              to={element.link}
+              activeClassName={classes.activeTab}
+              className={classes.removeTextDecoration}
+              key={index}
+              ref={(node) => {
+                links.current[index] = node;
+              }}
+            >
+              <ListItem button className={classes.listItem}>
+                <ListItemIcon>{element.icon}</ListItemIcon>
+                <ListItemText primary={element.name} />
+              </ListItem>
+            </NavLink>
+            {/* Nested list elements */}
+            <Collapse in={true} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {element.nested &&
+                  element.nested.map((nestedElement, nestedIndex) => (
+                    <NavLink
+                      to={nestedElement.link}
+                      activeClassName={clsx(
+                        classes.activeTab,
+                        classes.activeNestedTab
+                      )}
+                      className={classes.removeTextDecoration}
+                      key={"nested:" + nestedIndex}
+                      ref={(node) => {
+                        links.current[nestedIndex] = node;
+                      }}
+                    >
+                      <ListItem
+                        button
+                        className={clsx(classes.nested, classes.listItem)}
+                      >
+                        {/* <ListItemIcon>{nestedElement.icon}</ListItemIcon> */}
+                        <ListItemText primary={nestedElement.name} />
+                      </ListItem>
+                    </NavLink>
+                  ))}
+              </List>
+            </Collapse>
+          </Fragment>
         ))}
       </List>
     </MuiDrawer>

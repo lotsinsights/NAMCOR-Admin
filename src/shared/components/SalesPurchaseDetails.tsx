@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PageToolbar from "./PageToolbar";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
@@ -16,6 +11,7 @@ import PurchaseOrderAccordion from "./salesAndPurchaseComponents/PurchaseOrderAc
 import SalesOrderAccordion from "./salesAndPurchaseComponents/SalesOrderAccordion";
 import { observer } from "mobx-react";
 import MobxActiveSalesAccordionStore from "../stores/ActiveSalesAccordionStore";
+import FuelOrderAccordion from "./salesAndPurchaseComponents/FuelOrderAccordion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,7 +69,7 @@ const SalesPurchaseDetails = observer(() => {
   return (
     <div className={classes.root}>
       <PageToolbar
-        title="Sales and Purchase details"
+        // title="Sales and Purchase details"
         buttons={
           <>
             <Button
@@ -82,15 +78,15 @@ const SalesPurchaseDetails = observer(() => {
               color="primary"
               onClick={() => history.goBack()}
             >
-              Cancel
+              Go Back
             </Button>
-            <Button
+            {/* <Button
               variant="contained"
               color="primary"
               onClick={() => history.push("/admin/create-product")}
             >
               Save and update
-            </Button>
+            </Button> */}
           </>
         }
       />
@@ -107,16 +103,22 @@ const SalesPurchaseDetails = observer(() => {
         onChange={handleChange("quotes")}
         classes={classes}
       />
+      <PurchaseOrderAccordion
+        expanded={expanded}
+        accordionName={"purchases"}
+        onChange={handleChange("purchases")}
+        classes={classes}
+      />
       <SalesOrderAccordion
         expanded={expanded}
         accordionName={"sales"}
         onChange={handleChange("sales")}
         classes={classes}
       />
-      <PurchaseOrderAccordion
+      <FuelOrderAccordion
         expanded={expanded}
-        accordionName={"purchases"}
-        onChange={handleChange("purchases")}
+        accordionName={"fuel"}
+        onChange={handleChange("fuel")}
         classes={classes}
       />
       <InvoiceAccordion

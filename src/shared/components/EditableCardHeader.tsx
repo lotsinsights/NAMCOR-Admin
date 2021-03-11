@@ -65,6 +65,7 @@ const EditableCardHeader = (props: Props) => {
             variant="body2"
             component="div"
             contentEditable={true}
+            suppressContentEditableWarning={true}
           >
             {title}
           </Typography>
@@ -74,6 +75,7 @@ const EditableCardHeader = (props: Props) => {
             component="div"
             color="textSecondary"
             contentEditable={true}
+            suppressContentEditableWarning={true}
           >
             {subheader}
           </Typography>

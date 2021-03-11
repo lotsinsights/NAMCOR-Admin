@@ -12,8 +12,8 @@ class ProductStore {
     description:
       "It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
     price: 12.5,
-    thumbnail:
-      "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   };
 
   constructor() {

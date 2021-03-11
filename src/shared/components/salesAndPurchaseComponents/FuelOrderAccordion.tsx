@@ -7,11 +7,13 @@ import { Box, Button } from "@material-ui/core";
 import { AccordionActions } from "@material-ui/core";
 import {
   CloudUploadOutlined,
-  ThumbDownAltOutlined,
-  ThumbUpAltOutlined,
+  CommentOutlined,
+  DeleteOutlined,
   UpdateOutlined,
 } from "@material-ui/icons";
 import AttachedDocument from "../AttachedDocument";
+import MobxFeedbackDialogStore from "../../stores/FeedbackDialogStore";
+import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
 
 interface Props {
   expanded: any;
@@ -20,8 +22,21 @@ interface Props {
   classes: any;
 }
 
-const ProofOfPaymentAccordion = (props: Props) => {
+const FuelOrderAccordion = (props: Props) => {
   const { expanded, accordionName, onChange, classes } = props;
+
+  const feebackStore = MobxFeedbackDialogStore;
+  const fileUploadStore = MobxFileUploadDialogStore;
+
+  const giveFeedback = () => {
+    feebackStore.openFeedbackDialog();
+    console.warn("Remove this function from component");
+  };
+
+  const uploadFiles = () => {
+    fileUploadStore.openFileUploadDialog();
+    console.warn("Remove this function from component");
+  };
 
   return (
     <Accordion
@@ -33,9 +48,9 @@ const ProofOfPaymentAccordion = (props: Props) => {
         aria-controls={`panel-${accordionName}-content`}
         id={`panel-${accordionName}-header`}
       >
-        <Typography className={classes.heading}>Proof of Payments</Typography>
+        <Typography className={classes.heading}>Fuel order</Typography>
         <Typography className={classes.secondaryHeading}>
-          All POP files are here
+          All documents related to fuel orders are here
         </Typography>
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
@@ -52,36 +67,46 @@ const ProofOfPaymentAccordion = (props: Props) => {
           color="default"
           className={classes.button}
           startIcon={<UpdateOutlined />}
+          onClick={giveFeedback}
         >
-          Request for POP
+          Update status
         </Button>
         <Button
           variant="text"
           color="default"
           className={classes.button}
-          startIcon={<ThumbUpAltOutlined />}
+          startIcon={<UpdateOutlined />}
         >
-          Approve
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<ThumbDownAltOutlined />}
-        >
-          Reject
+          Update tracking
         </Button>
         <Button
           variant="text"
           color="default"
           className={classes.button}
           startIcon={<CloudUploadOutlined />}
+          onClick={uploadFiles}
         >
           Upload
+        </Button>
+        <Button
+          variant="text"
+          color="default"
+          className={classes.button}
+          startIcon={<CommentOutlined />}
+        >
+          Comments
+        </Button>
+        <Button
+          variant="text"
+          color="default"
+          className={classes.button}
+          startIcon={<DeleteOutlined />}
+        >
+          Delete
         </Button>
       </AccordionActions>
     </Accordion>
   );
 };
 
-export default ProofOfPaymentAccordion;
+export default FuelOrderAccordion;

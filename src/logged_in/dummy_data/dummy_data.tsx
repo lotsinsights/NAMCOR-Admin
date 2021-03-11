@@ -24,8 +24,8 @@ export const products: Product[] = [
     description:
       "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
     price: 12,
-    thumbnail:
-      "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     discount: 10,
   },
   {
@@ -35,8 +35,8 @@ export const products: Product[] = [
     description:
       " It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
     price: 12,
-    thumbnail:
-      "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     discount: 15,
   },
   {
@@ -46,8 +46,8 @@ export const products: Product[] = [
     description:
       "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
     price: 12,
-    thumbnail:
-      "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     discount: 0,
   },
 ];

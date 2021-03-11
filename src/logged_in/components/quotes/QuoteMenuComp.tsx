@@ -93,13 +93,13 @@ export default function QuoteMenuComp(props: any) {
           </ListItemIcon>
           <Typography variant="inherit">Reject quote</Typography>
         </MenuItem>
-        <hr />
+        {/* <hr />
         <MenuItem onClick={() => onEdit()}>
           <ListItemIcon>
             <SendOutlined fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit">Convert to purchase order</Typography>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
       <DeleteConfirmationDialog store={store} />
     </>

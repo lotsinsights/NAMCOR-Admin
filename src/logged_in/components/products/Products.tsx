@@ -61,10 +61,10 @@ const Products = () => {
   const [orderBy, setOrderBy] = useState<keyof Product>("description");
 
   const arrayOfLabels = (): (keyof Product)[] => {
-    return ["status", "name", "description"];
+    return ["name", "description"];
   };
 
-  // const rows: Product[] = stableSort(products, getComparator(order, orderBy));
+  const rows: Product[] = stableSort(products, getComparator(order, orderBy));
 
   useEffect(() => {
     document.title = "NAMCOR - Products";
@@ -122,7 +122,7 @@ const Products = () => {
       </Box>
 
       <Box className={classes.tableContainer}>
-        <Table columns={columns} rows={products}>
+        <Table columns={columns} rows={rows}>
           <ProductMenuComp onViewProduct={setSingleProductData} />
         </Table>
         <SingleProductDialog store={store} onClose={() => store.setClose()} />

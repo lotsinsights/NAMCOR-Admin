@@ -8,7 +8,7 @@ import { AccordionActions } from "@material-ui/core";
 import {
   CancelOutlined,
   CloudUploadOutlined,
-  EditOutlined,
+  CommentOutlined,
   UpdateOutlined,
 } from "@material-ui/icons";
 import AttachedDocument from "../AttachedDocument";
@@ -30,8 +30,8 @@ const PurchaseOrderAccordion = (props: Props) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel4bh-content"
-        id="panel4bh-header"
+        aria-controls={`panel-${accordionName}-content`}
+        id={`panel-${accordionName}-header`}
       >
         <Typography className={classes.heading}>Purchase order</Typography>
         <Typography className={classes.secondaryHeading}>
@@ -53,7 +53,15 @@ const PurchaseOrderAccordion = (props: Props) => {
           className={classes.button}
           startIcon={<UpdateOutlined />}
         >
-          Update status
+          Request for Purchase order
+        </Button>
+        <Button
+          variant="text"
+          color="default"
+          className={classes.button}
+          startIcon={<UpdateOutlined />}
+        >
+          Convert to Sales order
         </Button>
         <Button
           variant="text"
@@ -67,9 +75,9 @@ const PurchaseOrderAccordion = (props: Props) => {
           variant="text"
           color="default"
           className={classes.button}
-          startIcon={<EditOutlined />}
+          startIcon={<CommentOutlined />}
         >
-          Edit
+          Comments
         </Button>
         <Button
           variant="text"

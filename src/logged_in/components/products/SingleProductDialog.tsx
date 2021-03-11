@@ -10,6 +10,7 @@ import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { observer } from "mobx-react";
 import Box from "@material-ui/core/Box";
 import { Typography } from "@material-ui/core";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,9 +38,17 @@ const SingleProductDialog = observer((props: any) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const history = useHistory();
+
   const { store, onClose } = props;
   const content = store.getContent;
   const { name, description, status, price } = content;
+
+  const onEdit = () => {
+    store.setIsEditProduct();
+    history.push("/admin/create-product");
+    onClose(); //Close the modal
+  };
 
   return (
     <Dialog
@@ -78,7 +87,7 @@ const SingleProductDialog = observer((props: any) => {
         <Button autoFocus onClick={onClose} color="primary">
           Close
         </Button>
-        <Button onClick={onClose} color="primary" variant="contained" autoFocus>
+        <Button onClick={onEdit} color="primary" variant="contained" autoFocus>
           Edit
         </Button>
       </DialogActions>

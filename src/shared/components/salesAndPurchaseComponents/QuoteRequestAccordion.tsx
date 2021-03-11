@@ -6,9 +6,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Box, Button } from "@material-ui/core";
 import { AccordionActions } from "@material-ui/core";
 import {
-  CloudUploadOutlined,
+  CommentOutlined,
   DeleteOutlined,
-  EditOutlined,
   ThumbDownAltOutlined,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
@@ -32,8 +31,8 @@ const QuoteRequestAccordion = (props: Props) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1bh-content"
-        id="panel1bh-header"
+        aria-controls={`panel-${accordionName}-content`}
+        id={`panel-${accordionName}-header`}
       >
         <Typography className={classes.heading}>Quote Request</Typography>
         <Typography className={classes.secondaryHeading}>
@@ -74,17 +73,9 @@ const QuoteRequestAccordion = (props: Props) => {
           variant="text"
           color="default"
           className={classes.button}
-          startIcon={<CloudUploadOutlined />}
+          startIcon={<CommentOutlined />}
         >
-          Upload
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<EditOutlined />}
-        >
-          Edit
+          Comments
         </Button>
         <Button
           variant="text"

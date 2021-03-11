@@ -79,13 +79,6 @@ export default function OrdersTable<
                 </TableCell>
               ))}
               <TableCell
-                key={"popFiles"}
-                align={"center"}
-                style={{ minWidth: 70 }}
-              >
-                Pop Files
-              </TableCell>
-              <TableCell
                 key={"action"}
                 align={"right"}
                 style={{ minWidth: 100 }}
@@ -161,9 +154,6 @@ export default function OrdersTable<
                         </TableCell>
                       );
                     })}
-                    <TableCell key={"popFiles"} align={"center"}>
-                      <p>1 File</p>
-                    </TableCell>
                     <TableCell key={"actions"} align={"right"}>
                       {cloneElement(Children.only(props.children), {
                         row: row,

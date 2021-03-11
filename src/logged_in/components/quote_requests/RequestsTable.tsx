@@ -78,13 +78,13 @@ export default function RequestsTable<
                   {column.label}
                 </TableCell>
               ))}
-              <TableCell
+              {/* <TableCell
                 key={"quotations"}
                 align={"left"}
                 style={{ minWidth: 100 }}
               >
                 Quotations
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 key={"action"}
                 align={"right"}
@@ -157,9 +157,9 @@ export default function RequestsTable<
                         </TableCell>
                       );
                     })}
-                    <TableCell key={"qoutations"} align={"left"}>
+                    {/* <TableCell key={"qoutations"} align={"left"}>
                       1 file
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell key={"actions"} align={"right"}>
                       {cloneElement(Children.only(props.children), {
                         row: row,

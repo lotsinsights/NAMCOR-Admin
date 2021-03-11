@@ -8,13 +8,13 @@ import { AccordionActions } from "@material-ui/core";
 import {
   BuildOutlined,
   CloudUploadOutlined,
+  CommentOutlined,
   DeleteOutlined,
-  EditOutlined,
   ThumbDownAltOutlined,
   ThumbUpAltOutlined,
-  UpdateOutlined,
 } from "@material-ui/icons";
 import AttachedDocument from "../AttachedDocument";
+import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
 
 interface Props {
   expanded: any;
@@ -25,6 +25,12 @@ interface Props {
 
 const QuoteAccordion = (props: Props) => {
   const { expanded, accordionName, onChange, classes } = props;
+  const fileUploadStore = MobxFileUploadDialogStore;
+
+  const uploadFiles = () => {
+    fileUploadStore.openFileUploadDialog();
+    console.warn("Remove this function from component");
+  };
 
   return (
     <Accordion
@@ -33,8 +39,8 @@ const QuoteAccordion = (props: Props) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel2bh-content"
-        id="panel2bh-header"
+        aria-controls={`panel-${accordionName}-content`}
+        id={`panel-${accordionName}-header`}
       >
         <Typography className={classes.heading}>Quotation</Typography>
         <Typography className={classes.secondaryHeading}>
@@ -50,14 +56,6 @@ const QuoteAccordion = (props: Props) => {
         </Box>
       </AccordionDetails>
       <AccordionActions className={classes.accordionActions}>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<UpdateOutlined />}
-        >
-          Convert to Sales order
-        </Button>
         <Button
           variant="text"
           color="default"
@@ -79,6 +77,7 @@ const QuoteAccordion = (props: Props) => {
           color="default"
           className={classes.button}
           startIcon={<CloudUploadOutlined />}
+          onClick={uploadFiles}
         >
           Upload
         </Button>
@@ -94,9 +93,9 @@ const QuoteAccordion = (props: Props) => {
           variant="text"
           color="default"
           className={classes.button}
-          startIcon={<EditOutlined />}
+          startIcon={<CommentOutlined />}
         >
-          Edit
+          Comments
         </Button>
         <Button
           variant="text"

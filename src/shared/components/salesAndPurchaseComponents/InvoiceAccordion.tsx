@@ -33,8 +33,8 @@ const InvoiceAccordion = (props: Props) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel5bh-content"
-        id="panel5bh-header"
+        aria-controls={`panel-${accordionName}-content`}
+        id={`panel-${accordionName}-header`}
       >
         <Typography className={classes.heading}>Invoice</Typography>
         <Typography className={classes.secondaryHeading}>

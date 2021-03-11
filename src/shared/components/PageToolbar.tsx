@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  title: string;
+  title?: string;
   buttons?: any;
 }
 

@@ -4,7 +4,7 @@ interface Product {
   description: string;
   status: string;
   price: number;
-  thumbnail?: string;
+  // thumbnail?: string;
   discount?: number;
 }
 

@@ -2,10 +2,7 @@ import withStyles from "@material-ui/styles/withStyles";
 import React, { lazy, Suspense } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import LinearIndeterminate from "../shared/components/LinearIndeterminate";
-import FileViewerDialog from "../shared/components/FileViewerDialog";
 import Navbar from "./components/navigation/Navbar";
-import FeedbackDialog from "../shared/components/FeedbackDialog";
-import FileUploadDialog from "../shared/components/FileUploadDialog";
 
 const styles = (theme: any) => ({
   root: {
@@ -44,6 +41,17 @@ const Settings = lazy(() => import("./components/settings/Settings"));
 const Accounts = lazy(() => import("./components/accounts/Accounts"));
 const Chats = lazy(() => import("./components/chats/Chats"));
 const CreateAccount = lazy(() => import("./components/accounts/CreateAccount"));
+
+// Import Dialogs
+const FileViewerDialog = lazy(
+  () => import("../shared/components/FileViewerDialog")
+);
+const FeedbackDialog = lazy(
+  () => import("../shared/components/FeedbackDialog")
+);
+const FileUploadDialog = lazy(
+  () => import("../shared/components/FileUploadDialog")
+);
 
 interface Props {
   classes: any;
