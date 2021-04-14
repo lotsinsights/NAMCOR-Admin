@@ -73,12 +73,12 @@ const styles = (theme: any) => ({
     "&::before": {
       content: '""',
       position: "absolute",
-      left: 20,
+      left: 40,
       top: "50%",
       transform: "translateY(-50%)",
-      width: 10,
-      height: 10,
-      borderRadius: 2,
+      width: 8,
+      height: 8,
+      borderRadius: 4,
       backgroundColor: theme.palette.primary.main,
     },
     "&::after": {
@@ -151,16 +151,16 @@ const Navbar = (props: Props) => {
       icon: <SupervisorAccountOutlined fontSize="small" />,
       name: "Accounts",
     },
-    {
-      link: "/admin/settings",
-      icon: <SettingsOutlined fontSize="small" />,
-      name: "Settings",
-    },
-    {
-      link: "/admin/chats",
-      icon: <ChatOutlined fontSize="small" />,
-      name: "Chats",
-    },
+    // {
+    //   link: "/admin/settings",
+    //   icon: <SettingsOutlined fontSize="small" />,
+    //   name: "Settings",
+    // },
+    // {
+    //   link: "/admin/chats",
+    //   icon: <ChatOutlined fontSize="small" />,
+    //   name: "Chats",
+    // },
   ];
 
   return (

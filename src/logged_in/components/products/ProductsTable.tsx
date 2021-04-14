@@ -95,13 +95,13 @@ export default function ProductsTable<
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column, index) => {
                       const value: any = row[column.id];
-                      if (column.id === "status") {
+                      if (column.id === "productAvailabilityStatus") {
                         switch (value) {
-                          case "Out of stock":
+                          case false:
                             return (
                               <TableCell key={index} align={column.align}>
                                 <Chip
-                                  label={value}
+                                  label={"Out of stock"}
                                   style={{
                                     backgroundColor: "#FF042B",
                                     color: "white",
@@ -110,11 +110,11 @@ export default function ProductsTable<
                               </TableCell>
                             );
 
-                          case "Available":
+                          case true:
                             return (
                               <TableCell key={index} align={column.align}>
                                 <Chip
-                                  label={value}
+                                  label={"Available"}
                                   style={{
                                     backgroundColor: "#219653",
                                     color: "white",

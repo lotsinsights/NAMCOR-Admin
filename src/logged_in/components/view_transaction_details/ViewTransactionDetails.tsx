@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import PageToolbar from "./PageToolbar";
+import PageToolbar from "../../../shared/components/PageToolbar";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
-import QuoteRequestAccordion from "./salesAndPurchaseComponents/QuoteRequestAccordion";
-import QuoteAccordion from "./salesAndPurchaseComponents/QuoteAccordion";
-import InvoiceAccordion from "./salesAndPurchaseComponents/InvoiceAccordion";
-import ProofOfPaymentAccordion from "./salesAndPurchaseComponents/ProofOfPaymentAccordion";
-import PurchaseOrderAccordion from "./salesAndPurchaseComponents/PurchaseOrderAccordion";
-import SalesOrderAccordion from "./salesAndPurchaseComponents/SalesOrderAccordion";
+import QuoteRequestAccordion from "../../../shared/components/salesAndPurchaseComponents/QuoteRequestAccordion";
+import QuoteAccordion from "../../../shared/components/salesAndPurchaseComponents/QuoteAccordion";
+import InvoiceAccordion from "../../../shared/components/salesAndPurchaseComponents/InvoiceAccordion";
+import ProofOfPaymentAccordion from "../../../shared/components/salesAndPurchaseComponents/ProofOfPaymentAccordion";
+import PurchaseOrderAccordion from "../../../shared/components/salesAndPurchaseComponents/PurchaseOrderAccordion";
+import SalesOrderAccordion from "../../../shared/components/salesAndPurchaseComponents/SalesOrderAccordion";
 import { observer } from "mobx-react";
-import MobxActiveSalesAccordionStore from "../stores/ActiveSalesAccordionStore";
-import FuelOrderAccordion from "./salesAndPurchaseComponents/FuelOrderAccordion";
+import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
+import FuelOrderAccordion from "../../../shared/components/salesAndPurchaseComponents/FuelOrderAccordion";
+import { DeleteOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SalesPurchaseDetails = observer(() => {
+const ViewTransactionDetails = observer(() => {
   const classes = useStyles();
   const [activeAccordionStore] = useState(() => MobxActiveSalesAccordionStore);
   const [expanded, setExpanded] = useState<string | false>(
@@ -76,10 +77,20 @@ const SalesPurchaseDetails = observer(() => {
               style={{ marginRight: 20 }}
               variant="text"
               color="primary"
+              // className={classes.button}
+              startIcon={<DeleteOutlined />}
+            >
+              Delete
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
               onClick={() => history.goBack()}
             >
               Go Back
             </Button>
+
             {/* <Button
               variant="contained"
               color="primary"
@@ -115,12 +126,6 @@ const SalesPurchaseDetails = observer(() => {
         onChange={handleChange("sales")}
         classes={classes}
       />
-      <FuelOrderAccordion
-        expanded={expanded}
-        accordionName={"fuel"}
-        onChange={handleChange("fuel")}
-        classes={classes}
-      />
       <InvoiceAccordion
         expanded={expanded}
         accordionName={"invoices"}
@@ -137,4 +142,4 @@ const SalesPurchaseDetails = observer(() => {
   );
 });
 
-export default SalesPurchaseDetails;
+export default ViewTransactionDetails;

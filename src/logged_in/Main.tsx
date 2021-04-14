@@ -2,6 +2,7 @@ import withStyles from "@material-ui/styles/withStyles";
 import React, { lazy, Suspense } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import LinearIndeterminate from "../shared/components/LinearIndeterminate";
+import UpdateTrackingDialog from "../shared/components/UpdateTrackingDialog";
 import Navbar from "./components/navigation/Navbar";
 
 const styles = (theme: any) => ({
@@ -34,8 +35,12 @@ const QuoteRequests = lazy(
   () => import("./components/quote_requests/QuoteRequests")
 );
 const Orders = lazy(() => import("./components/orders/Orders"));
-const SalesPurchaseDetails = lazy(
-  () => import("../shared/components/SalesPurchaseDetails")
+const SalesOrders = lazy(() => import("./components/orders/sales/SalesOrders"));
+const PurchaseOrders = lazy(
+  () => import("./components/orders/purchase/PurchaseOrders")
+);
+const ViewTransactionDetails = lazy(
+  () => import("./components/view_transaction_details/ViewTransactionDetails")
 );
 const Settings = lazy(() => import("./components/settings/Settings"));
 const Accounts = lazy(() => import("./components/accounts/Accounts"));
@@ -100,6 +105,16 @@ function Main(props: Props) {
               <Orders />
             </Suspense>
           </Route>
+          <Route exact path={`${path}/orders/sales`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <SalesOrders />
+            </Suspense>
+          </Route>
+          <Route exact path={`${path}/orders/purchase`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <PurchaseOrders />
+            </Suspense>
+          </Route>
           <Route exact path={`${path}/accounts`}>
             <Suspense fallback={<LinearIndeterminate />}>
               <Accounts />
@@ -125,9 +140,9 @@ function Main(props: Props) {
               <CreateInvoice />
             </Suspense>
           </Route>
-          <Route exact path={`${path}/sales-purchase-details`}>
+          <Route exact path={`${path}/sales-purchase-details/:id`}>
             <Suspense fallback={<LinearIndeterminate />}>
-              <SalesPurchaseDetails />
+              <ViewTransactionDetails />
             </Suspense>
           </Route>
           <Route exact path={`${path}/settings`}>
@@ -145,6 +160,7 @@ function Main(props: Props) {
       <FileViewerDialog />
       <FeedbackDialog />
       <FileUploadDialog />
+      <UpdateTrackingDialog />
     </div>
   );
 }

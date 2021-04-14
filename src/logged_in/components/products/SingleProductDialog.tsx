@@ -42,7 +42,12 @@ const SingleProductDialog = observer((props: any) => {
 
   const { store, onClose } = props;
   const content = store.getContent;
-  const { name, description, status, price } = content;
+  const {
+    productName,
+    productDescription,
+    productAvailabilityStatus,
+    productPrice,
+  } = content;
 
   const onEdit = () => {
     store.setIsEditProduct();
@@ -65,22 +70,22 @@ const SingleProductDialog = observer((props: any) => {
         <Typography variant="subtitle1" component="h6">
           Product Name
         </Typography>
-        <DialogContentText>{name}</DialogContentText>
+        <DialogContentText>{productName}</DialogContentText>
 
         <Typography variant="subtitle1" component="h6">
           Description
         </Typography>
-        <DialogContentText>{description}</DialogContentText>
+        <DialogContentText>{productDescription}</DialogContentText>
 
         <Typography variant="subtitle1" component="h6">
           Status
         </Typography>
-        <DialogContentText>{status}</DialogContentText>
+        <DialogContentText>{productAvailabilityStatus}</DialogContentText>
 
         <Typography variant="subtitle1" component="h6">
           Price per litre
         </Typography>
-        <DialogContentText>N${price}.00</DialogContentText>
+        <DialogContentText>N${productPrice}</DialogContentText>
       </DialogContent>
 
       <DialogActions>

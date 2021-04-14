@@ -10,45 +10,87 @@ import { SearchDataInterface } from "../../shared/interfaces/SearchDataInterface
 export const products: Product[] = [
   {
     id: "Product1",
-    name: "Petrol",
-    status: "Available",
-    description:
+    productName: "Petrol",
+    productAvailabilityStatus: "Available",
+    productDescription:
       " It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
-    price: 12,
-    discount: 0,
+    productPrice: 12,
+    productDiscount: 0,
   },
   {
     id: "Product2",
-    name: "Diesel",
-    status: "Out of stock",
-    description:
+    productName: "Diesel",
+    productAvailabilityStatus: "Out of stock",
+    productDescription:
       "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
-    price: 12,
+    productPrice: 12,
     // thumbnail:
     //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    discount: 10,
+    productDiscount: 10,
   },
   {
     id: "Product3",
-    name: "Gasoline",
-    status: "Available",
-    description:
+    productName: "Gasoline",
+    productAvailabilityStatus: "",
+    productDescription:
       " It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
-    price: 12,
+    productPrice: 12,
     // thumbnail:
     //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    discount: 15,
+    productDiscount: 15,
   },
   {
     id: "Product4",
-    name: "Paraffin",
-    status: "Available",
-    description:
+    productName: "Paraffin",
+    productAvailabilityStatus: "",
+    productDescription:
       "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
-    price: 12,
+    productPrice: 12,
     // thumbnail:
     //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    discount: 0,
+    productDiscount: 0,
+  },
+  {
+    id: "Product5",
+    productName: "Zerox",
+    productAvailabilityStatus: "",
+    productDescription:
+      " It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
+    productPrice: 12,
+    productDiscount: 0,
+  },
+  {
+    id: "Product6",
+    productName: "Asphalt",
+    productAvailabilityStatus: "",
+    productDescription:
+      "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
+    productPrice: 12,
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    productDiscount: 10,
+  },
+  {
+    id: "Product7",
+    productName: "Gas",
+    productAvailabilityStatus: "Available",
+    productDescription:
+      " It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles.",
+    productPrice: 12,
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    productDiscount: 15,
+  },
+  {
+    id: "Product8",
+    productName: "Oil",
+    productAvailabilityStatus: "Available",
+    productDescription:
+      "Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content. Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil. The important properties which are used to characterize diesel fuel include cetane number (or cetane index), fuel volatility, density, viscosity, cold behavior, and sulfur content.",
+    productPrice: 12,
+    // thumbnail:
+    //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    productDiscount: 0,
   },
 ];
 

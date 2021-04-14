@@ -14,6 +14,10 @@ import {
 import AttachedDocument from "../AttachedDocument";
 import MobxFeedbackDialogStore from "../../stores/FeedbackDialogStore";
 import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../../services/firebase";
+import { Fragment } from "react";
 
 interface Props {
   expanded: any;
@@ -24,6 +28,10 @@ interface Props {
 
 const FuelOrderAccordion = (props: Props) => {
   const { expanded, accordionName, onChange, classes } = props;
+  const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [data, setData] = useState<any>();
+  const { id: docID } = useParams<{ id: string }>();
+  const collection = "quotations";
 
   const feebackStore = MobxFeedbackDialogStore;
   const fileUploadStore = MobxFileUploadDialogStore;
@@ -37,6 +45,36 @@ const FuelOrderAccordion = (props: Props) => {
     fileUploadStore.openFileUploadDialog();
     console.warn("Remove this function from component");
   };
+
+  const fetchData = useCallback(() => {
+    if (hasFetchedData) return;
+    setHasFetchedData(true);
+    console.log("Fetching data: ", docID);
+    const $doc = db.collection(collection).doc(docID).get();
+    $doc
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          setData({ id: docID, ...doc.data() });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  }, [hasFetchedData, docID]);
+
+  const isExpanded = useCallback(() => {
+    if (expanded !== accordionName) return;
+    fetchData();
+  }, [accordionName, expanded, fetchData]);
+
+  useEffect(() => {
+    isExpanded();
+    return () => {};
+  }, [expanded, isExpanded]);
 
   return (
     <Accordion
@@ -57,8 +95,19 @@ const FuelOrderAccordion = (props: Props) => {
         {/* Documents */}
         <Typography variant="button">Documents</Typography>
         <Box className={classes.attachments}>
-          <AttachedDocument />
-          <AttachedDocument />
+          {data &&
+            data.attachments.map((attachment: any, index: number) => {
+              return (
+                <Fragment key={index}>
+                  <AttachedDocument
+                    collectionName={collection}
+                    documentID={docID}
+                    fileName={attachment.name}
+                    fileSrc={attachment.url}
+                  />
+                </Fragment>
+              );
+            })}
         </Box>
       </AccordionDetails>
       <AccordionActions className={classes.accordionActions}>
@@ -95,14 +144,6 @@ const FuelOrderAccordion = (props: Props) => {
           startIcon={<CommentOutlined />}
         >
           Comments
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<DeleteOutlined />}
-        >
-          Delete
         </Button>
       </AccordionActions>
     </Accordion>

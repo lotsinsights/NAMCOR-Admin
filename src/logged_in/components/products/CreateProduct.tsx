@@ -10,6 +10,7 @@ import { useHistory } from "react-router";
 import { useEffect, useState } from "react";
 import MobxProductStore from "../../../shared/stores/ProductStore";
 import Product from "../../../shared/interfaces/Product";
+import { db } from "../../../shared/services/firebase";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -82,10 +83,10 @@ const CreateProduct = () => {
   const [store] = useState(() => MobxProductStore);
   const [product, setProduct] = useState<Product>({
     id: "",
-    name: "",
-    description: "",
-    status: "",
-    price: 0,
+    productName: "",
+    productDescription: "",
+    productAvailabilityStatus: "",
+    productPrice: 0,
     // discount: 0,
   });
   const formVariant: FormVariants = "outlined";
@@ -102,6 +103,30 @@ const CreateProduct = () => {
     };
   }, []);
 
+  const onFormSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("Product: ", product);
+    history.push("/admin/products");
+    // if valid
+    onProductAdd();
+  };
+
+  const onProductAdd = async () => {
+    console.log("Adding product...");
+
+    const $db = await db.collection("products");
+    $db
+      .add(product)
+      .then((productRef) => {
+        console.log("Product id: ", productRef.id);
+        // Update ID
+        $db.doc(productRef.id).update({ id: productRef.id });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
+
   return (
     <Box className={classes.root}>
       <PageToolbar
@@ -114,7 +139,8 @@ const CreateProduct = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => history.push("/admin/products")}
+              type="submit"
+              form="productForm"
             >
               Save and Upload
             </Button>
@@ -122,7 +148,12 @@ const CreateProduct = () => {
         }
       />
 
-      <form noValidate autoComplete="off">
+      <form
+        id="productForm"
+        noValidate
+        autoComplete="off"
+        onSubmit={onFormSubmit}
+      >
         <Box className={classes.tableContainer}>
           <Typography
             variant="h6"
@@ -141,9 +172,9 @@ const CreateProduct = () => {
                 <TextField
                   label="Product name"
                   variant={formVariant}
-                  value={product?.name || ""}
+                  value={product?.productName || ""}
                   onChange={(e) =>
-                    setProduct({ ...product, name: e.target.value })
+                    setProduct({ ...product, productName: e.target.value })
                   }
                 />
               </Grid>
@@ -153,9 +184,12 @@ const CreateProduct = () => {
                   rows={4}
                   variant={formVariant}
                   label="Product description"
-                  value={product?.description || ""}
+                  value={product?.productDescription || ""}
                   onChange={(e) =>
-                    setProduct({ ...product, description: e.target.value })
+                    setProduct({
+                      ...product,
+                      productDescription: e.target.value,
+                    })
                   }
                 />
               </Grid>
@@ -183,9 +217,12 @@ const CreateProduct = () => {
                   label="Price per litre"
                   variant={formVariant}
                   type="number"
-                  value={product?.price || 0}
+                  value={product?.productPrice || 0}
                   onChange={(e) =>
-                    setProduct({ ...product, price: Number(e.target.value) })
+                    setProduct({
+                      ...product,
+                      productPrice: Number(e.target.value),
+                    })
                   }
                 />
               </Grid>
@@ -194,9 +231,12 @@ const CreateProduct = () => {
                   label="Discount"
                   variant={formVariant}
                   type="number"
-                  value={product?.discount || 0}
+                  value={product?.productDiscount || 0}
                   onChange={(e) =>
-                    setProduct({ ...product, discount: Number(e.target.value) })
+                    setProduct({
+                      ...product,
+                      productDiscount: Number(e.target.value),
+                    })
                   }
                 />
               </Grid>
@@ -207,9 +247,12 @@ const CreateProduct = () => {
                   // onChange={(event)  => setProduct({...product, status: event.target.value})}
                   helperText="Please select stock status"
                   variant="outlined"
-                  value={product?.status || ""}
+                  value={product?.productAvailabilityStatus || ""}
                   onChange={(e) =>
-                    setProduct({ ...product, status: e.target.value })
+                    setProduct({
+                      ...product,
+                      productAvailabilityStatus: e.target.value,
+                    })
                   }
                 >
                   <MenuItem value="">

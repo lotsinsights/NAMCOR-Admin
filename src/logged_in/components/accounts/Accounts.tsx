@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
   },
-  tableContainer: {
+  box: {
     marginTop: "50px",
   },
   dspFlex: {
@@ -86,7 +86,7 @@ const Accounts = () => {
         />
       </Box>
 
-      <Box className={classes.tableContainer}>
+      <Box className={classes.box}>
         <AccountsTable columns={columns} rows={companies}>
           <AccountMenuComp />
         </AccountsTable>

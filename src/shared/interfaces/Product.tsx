@@ -1,11 +1,11 @@
 interface Product {
   id: string;
-  name: string;
-  description: string;
-  status: string;
-  price: number;
+  productName: string;
+  productDescription: string;
+  productAvailabilityStatus: string;
+  productPrice: number;
   // thumbnail?: string;
-  discount?: number;
+  productDiscount?: number;
 }
 
 export default Product;

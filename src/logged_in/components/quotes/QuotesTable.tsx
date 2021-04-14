@@ -9,6 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Chip from "@material-ui/core/Chip";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -50,6 +51,7 @@ export default function QuotesTable<
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { columns, rows } = props;
+  const history = useHistory();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -155,6 +157,10 @@ export default function QuotesTable<
                     <TableCell key={"actions"} align={"right"}>
                       {cloneElement(Children.only(props.children), {
                         row: row,
+                        onViewQuote: () =>
+                          history.push(
+                            `/admin/sales-purchase-details/${row.id}`
+                          ),
                       })}
                     </TableCell>
                   </TableRow>

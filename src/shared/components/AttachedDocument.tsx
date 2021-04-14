@@ -11,6 +11,7 @@ import {
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
+import { $firebase, db, storage } from "../services/firebase";
 import MobxFileViewerDialogStore from "../stores/FileViewerDialogStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,16 +32,65 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const AttachedDocument = () => {
+interface Props {
+  collectionName: string;
+  documentID: string;
+  fileName?: string;
+  fileSrc?: string;
+}
+
+const AttachedDocument = (props: Props) => {
   const classes = useStyles();
   const fileViewerStore = MobxFileViewerDialogStore;
-  const fileSrc = "https://people.inf.elte.hu/miiqaai/elektroModulatorDva.pdf";
-  const fileName = "Database systems";
+
+  const {
+    collectionName: collection,
+    documentID: doc,
+    fileName = "Default file name",
+    fileSrc = "www.google.com",
+  } = props;
 
   const viewFile = () => {
     fileViewerStore.setFile(fileSrc);
     fileViewerStore.setFileName(fileName);
     fileViewerStore.openFileViewerDialog();
+  };
+
+  const updateDownloadURL = (data: any) => {
+    db.collection(collection)
+      .doc(doc)
+      .set(data, { merge: true })
+      .then(() => {
+        console.log("Document successfully updated!");
+      })
+      .catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+      });
+  };
+
+  const onDelete = () => {
+    // Delete from storage (using DownloadURL).
+    console.warn("Warning, deleting file..");
+    if (fileSrc) {
+      console.log("Filename: ", fileName, "\nURL: ", fileSrc);
+
+      storage
+        .refFromURL(fileSrc)
+        .delete()
+        .then((success) => {
+          console.log("Deleted successfully");
+        })
+        .catch((error) => console.log("Error: ", error))
+        .finally(() => {
+          updateDownloadURL({
+            attachments: $firebase.firestore.FieldValue.arrayRemove({
+              name: fileName,
+              url: fileSrc,
+            }),
+          });
+        });
+    }
   };
 
   return (
@@ -52,7 +102,7 @@ const AttachedDocument = () => {
           color="textSecondary"
           component="p"
         >
-          Company vision and mission statement
+          {fileName}
         </Typography>
       </CardContent>
 
@@ -76,6 +126,7 @@ const AttachedDocument = () => {
           aria-label="download"
           size="small"
           className={classes.margin}
+          onClick={onDelete}
         >
           <DeleteOutlined fontSize="small" />
         </IconButton>

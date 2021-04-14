@@ -15,6 +15,12 @@ import {
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import AttachedDocument from "../AttachedDocument";
+import { useState, useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../../services/firebase";
+import MobxFeedbackDialogStore from "../../stores/FeedbackDialogStore";
+import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
+import { Fragment } from "react";
 
 interface Props {
   expanded: any;
@@ -24,7 +30,68 @@ interface Props {
 }
 
 const InvoiceAccordion = (props: Props) => {
-  const { expanded, onChange, accordionName, classes } = props;
+  // Stores
+  const fileUploadStore = MobxFileUploadDialogStore; // Upload files to firebase
+  const feebackStore = MobxFeedbackDialogStore; // Give feedback
+
+  // Props
+  const { expanded, accordionName, onChange, classes } = props;
+
+  // States
+  const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [data, setData] = useState<any>();
+
+  // Variables
+  const { id: docID } = useParams<{ id: string }>();
+  const collection = "invoices";
+
+  // Upload files to firebase
+  const uploadFiles = () => {
+    // Update collection name in file upload store
+    fileUploadStore.setCollectionName(collection);
+    // Update document ID in file upload store
+    fileUploadStore.setDocumentID(docID);
+    // Open dialog
+    fileUploadStore.openFileUploadDialog();
+
+    console.warn("Remove this function from component");
+  };
+
+  // Give feedback
+  const giveFeedback = () => {
+    feebackStore.openFeedbackDialog();
+    console.warn("Remove this function from component");
+  };
+
+  // Fetch data from firebase
+  const fetchData = useCallback(() => {
+    if (hasFetchedData) return;
+    setHasFetchedData(true);
+    db.collection(collection)
+      .doc(docID)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          setData({ id: docID, ...doc.data() });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      });
+  }, [hasFetchedData, docID]);
+
+  // Checks if the accordion expanded then,
+  // fetched data + other tasks.
+  const isExpanded = useCallback(() => {
+    if (expanded !== accordionName) return;
+    fetchData();
+  }, [accordionName, expanded, fetchData]);
+
+  // Use effect react hook
+  useEffect(() => {
+    isExpanded();
+    return () => {};
+  }, [expanded, isExpanded]);
 
   return (
     <Accordion
@@ -45,12 +112,23 @@ const InvoiceAccordion = (props: Props) => {
         {/* Documents */}
         <Typography variant="button">Documents</Typography>
         <Box className={classes.attachments}>
-          <AttachedDocument />
-          <AttachedDocument />
+          {data &&
+            data.attachments.map((attachment: any, index: number) => {
+              return (
+                <Fragment key={index}>
+                  <AttachedDocument
+                    collectionName={collection}
+                    documentID={docID}
+                    fileName={attachment.name}
+                    fileSrc={attachment.url}
+                  />
+                </Fragment>
+              );
+            })}
         </Box>
       </AccordionDetails>
       <AccordionActions className={classes.accordionActions}>
-        <Button
+        {/* <Button
           variant="text"
           color="default"
           className={classes.button}
@@ -73,12 +151,13 @@ const InvoiceAccordion = (props: Props) => {
           startIcon={<ThumbDownAltOutlined />}
         >
           Reject
-        </Button>
+        </Button>  */}
         <Button
           variant="text"
           color="default"
           className={classes.button}
           startIcon={<CloudUploadOutlined />}
+          onClick={uploadFiles}
         >
           Upload
         </Button>
@@ -89,22 +168,6 @@ const InvoiceAccordion = (props: Props) => {
           startIcon={<BuildOutlined />}
         >
           Build
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<EditOutlined />}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<DeleteOutlined />}
-        >
-          Delete
         </Button>
       </AccordionActions>
     </Accordion>

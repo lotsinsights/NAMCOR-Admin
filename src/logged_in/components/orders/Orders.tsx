@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import SearchField from "../../../shared/components/SearchField";
 import MobxInvoiceStore from "../../../shared/stores/InvoiceStore";
 import { Button } from "@material-ui/core";
-import InvoiceTableColumn from "../../../shared/interfaces/InvoiceTableColumn";
-import MenuComp from "../../../shared/components/MenuComp";
 import OrdersTable from "./OrdersTable";
 import PageToolbar from "../../../shared/components/PageToolbar";
 import { useHistory } from "react-router-dom";
-import { invoices, orders } from "../../dummy_data/dummy_data";
 import OrderTableColumn from "../../../shared/interfaces/OrderTableColumn";
 import OrderMenuComp from "./OrderMenuComp";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
+import { db } from "../../../shared/services/firebase";
+import Order from "../../../shared/interfaces/Order";
+import EnhancedOrderTable from "./sales/EnhancedOrderTable";
+import OrderFilterPopover from "./OrderFilterPopover";
+import ErrorBoundary from "../../../shared/components/ErrorBoundary";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
   },
-  tableContainer: {
+  box: {
     marginTop: "50px",
   },
 
@@ -52,13 +53,37 @@ const Orders = () => {
   const store = MobxInvoiceStore;
   const activeAccordionStore = MobxActiveSalesAccordionStore;
   const history = useHistory();
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     document.title = "NAMCOR - Orders";
     // Setting the sales and purchase details to orders
     activeAccordionStore.setActiveStage("sales");
+    // Get orders
+    getOrders();
+
     return () => {};
   }, []);
+
+  const getOrders = async () => {
+    // Get purchase orders
+    const $db1 = await db.collection("purchaseOrders");
+    $db1.onSnapshot((querySnapshot: any) => {
+      const docs = querySnapshot.docs.map((doc: any) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setOrders((current) => [...current, ...docs]);
+    });
+
+    // Get fuel/sales orders
+    const $db2 = await db.collection("salesOrders");
+    return $db2.onSnapshot((querySnapshot: any) => {
+      const docs = querySnapshot.docs.map((doc: any) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setOrders((current) => [...current, ...docs]);
+    });
+  };
 
   // Search change handler
   const handleSearchChange = (event: any, value: any) => {
@@ -89,33 +114,31 @@ const Orders = () => {
       />
 
       <Box className={classes.flexCenter}>
-        <SearchField
-          data={invoices}
-          feature={"customerName"}
-          onChange={(event: any, value: any) =>
-            handleSearchChange(event, value)
-          }
-        />
+        <ErrorBoundary>
+          <SearchField
+            data={orders}
+            feature={"customerName"}
+            onChange={(event: any, value: any) =>
+              handleSearchChange(event, value)
+            }
+          />
+        </ErrorBoundary>
       </Box>
 
-      {/* <Box className={classes.tableContainer}>
-        <TableFilter
-          activeFilters={activeFilters}
-          setActiveFilters={setActiveFilters}
-          order={order}
-          setOrder={setOrder}
-          label={orderBy}
-          setLabel={setOrderBy}
-          arrayOfLabels={arrayOfLabels()}
-        />
-      </Box> */}
-
-      <Box className={classes.tableContainer}>
+      {/* <Box className={classes.box}>
         <OrdersTable columns={columns} rows={orders}>
           <OrderMenuComp
             onViewOrder={() => history.push("/admin/sales-purchase-details")}
           />
         </OrdersTable>
+      </Box> */}
+
+      <Box className={classes.box}>
+        <EnhancedOrderTable
+          title={"Orders"}
+          onViewOrder={console.log}
+          data={orders}
+        />
       </Box>
     </Box>
   );

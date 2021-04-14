@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,15 +14,9 @@ import { observer } from "mobx-react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
-import {
-  AddOutlined,
-  DeleteOutlined,
-  DescriptionOutlined,
-} from "@material-ui/icons";
+import { AddOutlined } from "@material-ui/icons";
 import MobxFileUploadDialogStore from "../stores/FileUploadDialogStore";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import EditableCardHeader from "./EditableCardHeader";
+import FileUploadTask from "./FileUploadTask";
 
 const options = [
   "Account has enough credit",
@@ -61,6 +55,20 @@ const useStyles = makeStyles((theme: Theme) =>
 const FileUploadDialog = observer(() => {
   const classes = useStyles();
   const [fileUploadStore] = useState(() => MobxFileUploadDialogStore);
+  const collection = fileUploadStore.getCollectionName;
+  const doc = fileUploadStore.getDocumentID;
+
+  // Selected files
+  const [files, setFiles] = useState<any>([]);
+
+  const onFileChange = (e: any) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newFile = e.target.files[i];
+      newFile["id"] = Math.random();
+      // add an "id" property to each File object
+      setFiles((prevState: any) => [...prevState, newFile]);
+    }
+  };
 
   const handleClose = () => {
     fileUploadStore.closeFileUploadDialog();
@@ -111,64 +119,26 @@ const FileUploadDialog = observer(() => {
             >
               Files
             </Typography>
-
-            {/* <Box className={classes.fileCard}>
-              <Card variant="outlined">
-                <CardHeader
-                  avatar={<DescriptionOutlined />}
-                  action={
-                    <IconButton aria-label="delete">
-                      <DeleteOutlined />
-                    </IconButton>
-                  }
-                  title="Proof of payment for order #23422123"
-                  subheader="NAMPOWER"
-                />
-                <LinearProgress variant="determinate" value={20} />
-              </Card>
-            </Box> */}
-
-            <Box className={classes.fileCard}>
-              <Card variant="outlined">
-                <EditableCardHeader
-                  title="Proof of payment for order #23422123"
-                  subheader="NAMPOWER"
-                  onDelete={() => console.warn("Warning, deleting file..")}
-                />
-                <LinearProgress variant="determinate" value={20} />
-              </Card>
-            </Box>
-
-            <Box className={classes.fileCard}>
-              <Card variant="outlined">
-                <EditableCardHeader
-                  title="Proof of payment for order #343535435"
-                  subheader="NAMPOWER"
-                  onDelete={() => console.warn("Warning, deleting file..")}
-                />
-                <LinearProgress variant="determinate" value={50} />
-              </Card>
-            </Box>
-
-            <Box className={classes.fileCard}>
-              <Card variant="outlined">
-                <EditableCardHeader
-                  title="Company bank statements"
-                  subheader="NAMPOWER"
-                  onDelete={() => console.warn("Warning, deleting file..")}
-                />
-                <LinearProgress variant="determinate" value={50} />
-              </Card>
-            </Box>
+            {files &&
+              files.map((file: any, index: number) => (
+                <Fragment key={index}>
+                  <FileUploadTask
+                    file={file}
+                    collection={collection}
+                    doc={doc}
+                  />
+                </Fragment>
+              ))}
 
             {/* Select files */}
             <Box className={classes.fileAdd}>
               <input
-                accept="image/*"
+                // accept="image/*"
                 className={classes.input}
                 id="contained-button-file"
                 multiple
                 type="file"
+                onChange={onFileChange}
               />
               <label htmlFor="contained-button-file">
                 <Button

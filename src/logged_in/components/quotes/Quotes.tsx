@@ -9,9 +9,12 @@ import QuotesTable from "./QuotesTable";
 import { useHistory } from "react-router-dom";
 import PageToolbar from "../../../shared/components/PageToolbar";
 import QuoteTableColumn from "../../../shared/interfaces/QuoteTableColumn";
-import { quotes } from "../../dummy_data/dummy_data";
+// import { quotes } from "../../dummy_data/dummy_data";
 import QuoteMenuComp from "./QuoteMenuComp";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
+import Quote from "../../../shared/interfaces/Quote";
+import { db } from "../../../shared/services/firebase";
+import EnhancedQuoteTable from "./EnhancedQuoteTable";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -22,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
   },
-  tableContainer: {
+  box: {
     marginTop: "50px",
   },
 
@@ -50,13 +53,27 @@ const Quotes = () => {
   const store = MobxInvoiceStore;
   const activeAccordionStore = MobxActiveSalesAccordionStore;
   const history = useHistory();
+  const [quotes, setQuotes] = useState<Quote[]>([]);
 
   useEffect(() => {
     document.title = "NAMCOR - Quotations";
     // Setting the sales and purchase details to quote
     activeAccordionStore.setActiveStage("quotes");
+
+    // Get quotes
+    getQuotes();
     return () => {};
   }, []);
+
+  const getQuotes = async () => {
+    const $db = await db.collection("quotations");
+    return $db.onSnapshot((querySnapshot: any) => {
+      const docs = querySnapshot.docs.map((doc: any) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setQuotes(docs);
+    });
+  };
 
   // Search change handler
   const handleSearchChange = (event: any, value: any) => {
@@ -69,6 +86,10 @@ const Quotes = () => {
       // store.setSingleProductContent(value);
       store.setOpen();
     }
+  };
+
+  const onViewQuote = (quote: Quote) => {
+    history.push(`/admin/sales-purchase-details/${quote.id}`);
   };
 
   return (
@@ -96,24 +117,14 @@ const Quotes = () => {
         />
       </Box>
 
-      {/* <Box className={classes.tableContainer}>
-        <TableFilter
-          activeFilters={activeFilters}
-          setActiveFilters={setActiveFilters}
-          order={order}
-          setOrder={setOrder}
-          label={orderBy}
-          setLabel={setOrderBy}
-          arrayOfLabels={arrayOfLabels()}
-        />
+      {/* <Box className={classes.box}>
+        <QuotesTable columns={columns} rows={quotes}>
+          <QuoteMenuComp />
+        </QuotesTable>
       </Box> */}
 
-      <Box className={classes.tableContainer}>
-        <QuotesTable columns={columns} rows={quotes}>
-          <QuoteMenuComp
-            onViewQuote={() => history.push("/admin/sales-purchase-details")}
-          />
-        </QuotesTable>
+      <Box className={classes.box}>
+        <EnhancedQuoteTable onViewQuote={onViewQuote} data={quotes} />
       </Box>
     </Box>
   );

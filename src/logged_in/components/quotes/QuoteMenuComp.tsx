@@ -6,12 +6,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   MoreVert,
-  NoteAddOutlined,
   PageviewOutlined,
-  PublishOutlined,
-  SendOutlined,
   ThumbDownAltOutlined,
-  ThumbsUpDownOutlined,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";

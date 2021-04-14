@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -14,6 +14,10 @@ import { quote_request } from "../../dummy_data/dummy_data";
 import QuoteRequestTableColumn from "../../../shared/interfaces/QuoteRequestTableColumn";
 import QuoteRequestMenuComp from "./QuoteRequestMenuComp";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
+import Quote from "../../../shared/interfaces/Quote";
+import QuoteRequest from "../../../shared/interfaces/QuoteRequest";
+import { db } from "../../../shared/services/firebase";
+import EnhancedRequestTable from "./EnhancedRequestTable";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
   },
-  tableContainer: {
+  box: {
     marginTop: "50px",
   },
 
@@ -52,13 +56,26 @@ const QouteRequests = () => {
   const store = MobxInvoiceStore;
   const activeAccordionStore = MobxActiveSalesAccordionStore;
   const history = useHistory();
+  const [qouteRequests, setQuoteRequests] = useState<QuoteRequest[]>([]);
 
   useEffect(() => {
     document.title = "NAMCOR - Requests";
     // Setting the sales and purchase details to invoices
     activeAccordionStore.setActiveStage("requests");
+    // Quote requests
+    getQuoteRequests();
     return () => {};
   }, []);
+
+  const getQuoteRequests = async () => {
+    const $db = await db.collection("quoteRequests");
+    return $db.onSnapshot((querySnapshot: any) => {
+      const docs = querySnapshot.docs.map((doc: any) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setQuoteRequests(docs);
+    });
+  };
 
   // Search change handler
   const handleSearchChange = (event: any, value: any) => {
@@ -71,6 +88,10 @@ const QouteRequests = () => {
       // store.setSingleProductContent(value);
       store.setOpen();
     }
+  };
+
+  const onViewQuoteRequest = (request: QuoteRequest) => {
+    history.push(`/admin/sales-purchase-details/${request.id}`);
   };
 
   return (
@@ -98,7 +119,7 @@ const QouteRequests = () => {
         />
       </Box>
 
-      {/* <Box className={classes.tableContainer}>
+      {/* <Box className={classes.box}>
         <TableFilter
           activeFilters={activeFilters}
           setActiveFilters={setActiveFilters}
@@ -110,12 +131,19 @@ const QouteRequests = () => {
         />
       </Box> */}
 
-      <Box className={classes.tableContainer}>
-        <RequestsTable columns={columns} rows={quote_request}>
+      {/* <Box className={classes.box}>
+        <RequestsTable columns={columns} rows={qouteRequests}>
           <QuoteRequestMenuComp
             onViewRequest={() => history.push("/admin/sales-purchase-details")}
           />
         </RequestsTable>
+      </Box> */}
+
+      <Box className={classes.box}>
+        <EnhancedRequestTable
+          onViewRequest={onViewQuoteRequest}
+          data={qouteRequests}
+        />
       </Box>
     </Box>
   );

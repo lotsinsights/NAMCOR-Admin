@@ -24,7 +24,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { getComparator, Order, stableSort } from "../functions/TableSort";
+import { Order, stableSort, getComparator } from "../functions/TableSort";
+import Button from "@material-ui/core/Button";
+import ProductMenuComp from "../../logged_in/components/products/ProductMenuComp";
 
 interface Data {
   calories: number;
@@ -72,9 +74,9 @@ const headCells: HeadCell[] = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Product",
   },
-  { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
+  { id: "calories", numeric: true, disablePadding: false, label: "Price" },
   { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
   { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
   { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
@@ -117,7 +119,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all desserts" }}
+            inputProps={{ "aria-label": "select all products" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -141,6 +143,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell key={"action"} align={"right"}>
+          Actions
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -198,7 +203,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Products
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -366,12 +371,17 @@ export default function EnhancedTable() {
                       <TableCell align="right">{row.fat}</TableCell>
                       <TableCell align="right">{row.carbs}</TableCell>
                       <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">
+                        <ProductMenuComp
+                          onViewProduct={() => console.log("Menu")}
+                        />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={7} />
                 </TableRow>
               )}
             </TableBody>

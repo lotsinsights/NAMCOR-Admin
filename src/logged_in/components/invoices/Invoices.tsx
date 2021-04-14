@@ -14,6 +14,9 @@ import UploadOrBuildInvoiceDialog from "./UploadOrBuildInvoiceDialog";
 import { invoices } from "../../dummy_data/dummy_data";
 import InvoiceMenuComp from "./InvoiceMenuComp";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
+import Invoice from "../../../shared/interfaces/Invoice";
+import { db } from "../../../shared/services/firebase";
+import EnhancedInvoiceTable from "./EnhancedInvoiceTable";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
   },
-  tableContainer: {
+  box: {
     marginTop: "50px",
   },
 
@@ -52,17 +55,31 @@ const Invoices = () => {
   const store = MobxInvoiceStore;
   const history = useHistory();
   const activeAccordionStore = MobxActiveSalesAccordionStore;
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   // New invoice
   const [uploadOrBuild, setuploadOrBuild] = useState(false);
-  const [selectedValue, setselectedValue] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
   useEffect(() => {
     document.title = "NAMCOR - Invoices";
     // Setting the sales and purchase details to invoices
     activeAccordionStore.setActiveStage("invoices");
+    // Get invoices
+    getInvoices();
     return () => {};
   }, []);
+
+  const getInvoices = async () => {
+    // Get purchase invoices
+    const $db = await db.collection("invoices");
+    return $db.onSnapshot((querySnapshot: any) => {
+      const docs = querySnapshot.docs.map((doc: any) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setInvoices(docs);
+    });
+  };
 
   // Search change handler
   const handleSearchChange = (event: any, value: any) => {
@@ -74,6 +91,10 @@ const Invoices = () => {
     if (value) {
       store.setOpen();
     }
+  };
+
+  const onViewInvoice = (invoice: Invoice) => {
+    history.push(`/admin/sales-purchase-details/${invoice.id}`);
   };
 
   const onClose = (value: string | null) => {
@@ -123,12 +144,16 @@ const Invoices = () => {
         />
       </Box> */}
 
-      <Box className={classes.tableContainer}>
+      {/* <Box className={classes.box}>
         <InvoiceTable columns={columns} rows={invoices}>
           <InvoiceMenuComp
             onViewInvoice={() => history.push("/admin/sales-purchase-details")}
           />
         </InvoiceTable>
+      </Box> */}
+
+      <Box className={classes.box}>
+        <EnhancedInvoiceTable onViewInvoice={onViewInvoice} data={invoices} />
       </Box>
 
       <UploadOrBuildInvoiceDialog

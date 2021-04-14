@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const columns: ProductTableColumn[] = [
-  { id: "name", label: "Lube Name", minWidth: 170 },
-  { id: "description", label: "Description", minWidth: 100 },
+  { id: "productName", label: "Lube Name", minWidth: 170 },
+  { id: "productDescription", label: "Description", minWidth: 100 },
 ];
 
 const DisplayAddress = observer((props: any) => {
