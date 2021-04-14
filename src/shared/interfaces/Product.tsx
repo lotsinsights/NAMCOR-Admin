@@ -4,7 +4,6 @@ interface Product {
   productDescription: string;
   productAvailabilityStatus: string;
   productPrice: number;
-  // thumbnail?: string;
   productDiscount?: number;
 }
 

@@ -109,12 +109,17 @@ const QuoteRequestAccordion = (props: Props) => {
         {/* Request details */}
         <Box>
           <Typography variant="button">Request Details</Typography>
-          <QuoteRequestContent />
+          <Fragment>
+            {data && data.requestedProducts && (
+              <QuoteRequestContent requestedProducts={data.requestedProducts} />
+            )}
+          </Fragment>
         </Box>
         {/* Request documents */}
         <Typography variant="button">Documents</Typography>
         <Box className={classes.attachments}>
           {data &&
+            data.attachments &&
             data.attachments.map((attachment: any, index: number) => {
               return (
                 <Fragment key={index}>

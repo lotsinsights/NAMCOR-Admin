@@ -5,6 +5,7 @@ class ProductStore {
   open: boolean = false;
   openDeleteConfirmation: boolean = false;
   isEditProduct: boolean = false;
+
   content: Product = {
     id: "32cfdaradwewf2",
     productName: "Petrol",
@@ -14,6 +15,11 @@ class ProductStore {
     productPrice: 12.5,
     // thumbnail:
     //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+  };
+
+  deleteThisProduct = {
+    collectionName: "",
+    documentID: "",
   };
 
   constructor() {
@@ -32,6 +38,13 @@ class ProductStore {
   }
   closeDeleteConfirmationDialog() {
     this.openDeleteConfirmation = false;
+  }
+  setProductTobeDeleted(collectionName: string, docID: string) {
+    this.deleteThisProduct.collectionName = collectionName;
+    this.deleteThisProduct.documentID = docID;
+  }
+  get getProductTobeDeleted() {
+    return this.deleteThisProduct;
   }
 
   // Content functions

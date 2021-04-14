@@ -76,15 +76,26 @@ const Products = () => {
 
   // Search change handler
   const handleSearchChange = (event: any, value: any) => {
-    setSingleProductData(value);
+    onViewProduct(value);
   };
 
   // View single product data
-  const setSingleProductData = (value: any) => {
+  const onViewProduct = (value: any) => {
     if (value) {
       store.setSingleProductContent(value);
       store.setOpen();
     }
+  };
+
+  const onEditProduct = (row: Product) => {
+    store.setIsEditProduct();
+    store.setSingleProductContent(row);
+    history.push("/admin/create-product");
+  };
+
+  const onDeleteProduct = (row: Product) => {
+    store.setProductTobeDeleted("products", row.id);
+    store.openDeleteConfirmationDialog();
   };
 
   return (
@@ -115,18 +126,6 @@ const Products = () => {
       </Box>
 
       {/* <Box className={classes.box}>
-        <TableFilter
-          activeFilters={activeFilters}
-          setActiveFilters={setActiveFilters}
-          order={order}
-          setOrder={setOrder}
-          label={orderBy}
-          setLabel={setOrderBy}
-          arrayOfLabels={arrayOfLabels()}
-        />
-      </Box> */}
-
-      {/* <Box className={classes.box}>
         <Table columns={columns} rows={rows}>
           <ProductMenuComp onViewProduct={setSingleProductData} />
         </Table>
@@ -135,7 +134,9 @@ const Products = () => {
 
       <Box className={classes.box}>
         <EnhancedProductTable
-          onViewProduct={setSingleProductData}
+          onViewProduct={onViewProduct}
+          onEditProduct={onEditProduct}
+          onDeleteProduct={onDeleteProduct}
           data={rows}
         />
       </Box>

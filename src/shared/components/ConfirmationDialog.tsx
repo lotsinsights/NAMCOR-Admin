@@ -6,15 +6,29 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { observer } from "mobx-react";
+import { db } from "../services/firebase";
 
 const DeleteConfirmationDialog = observer((props: any) => {
   const { store } = props;
 
   const handleDisagree = () => {
     store.closeDeleteConfirmationDialog();
+    store.setProductTobeDeleted("", "");
   };
 
-  const handleAgree = () => {
+  const handleAgree = async () => {
+    const collectionName = store.getProductTobeDeleted.collectionName;
+    const documentID = store.getProductTobeDeleted.documentID;
+    if (collectionName && documentID) {
+      const $db = await db
+        .collection(store.getProductTobeDeleted.collectionName)
+        .doc(store.getProductTobeDeleted.documentID);
+      $db
+        .delete()
+        .then(() => console.log("Deleted"))
+        .catch(() => console.log("Deleted"));
+    }
+
     store.closeDeleteConfirmationDialog();
   };
 

@@ -17,8 +17,9 @@ import MobxProductStore from "../../../shared/stores/ProductStore";
 export default function ProductMenuComp(props: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   let history = useHistory();
+
+  const { onViewProduct, onEditProduct, onDeleteProduct, row } = props;
   const store = MobxProductStore;
-  const { onViewProduct, row } = props;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,12 +27,6 @@ export default function ProductMenuComp(props: any) {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const onEdit = () => {
-    store.setIsEditProduct();
-    store.setSingleProductContent(row);
-    history.push("/admin/create-product");
   };
 
   return (
@@ -57,13 +52,13 @@ export default function ProductMenuComp(props: any) {
           </ListItemIcon>
           <Typography variant="inherit">View</Typography>
         </MenuItem>
-        <MenuItem onClick={() => onEdit()}>
+        <MenuItem onClick={onEditProduct}>
           <ListItemIcon>
             <EditOutlined fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit">Edit</Typography>
         </MenuItem>
-        <MenuItem onClick={() => store.openDeleteConfirmationDialog()}>
+        <MenuItem onClick={() => onDeleteProduct(row)}>
           <ListItemIcon>
             <DeleteOutlined fontSize="small" />
           </ListItemIcon>

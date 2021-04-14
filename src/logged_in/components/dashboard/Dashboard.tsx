@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import PageToolbar from "../../../shared/components/PageToolbar";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import { TrendingDownOutlined } from "@material-ui/icons";
+import { TrendingDownOutlined, TrendingUpOutlined } from "@material-ui/icons";
 import clsx from "clsx";
 import Donut from "./Donut";
 import AreaChart from "./AreaChart";
@@ -92,7 +92,7 @@ const CardItem = () => {
           >
             <div className={clsx(classes.cardPercentSpan, classes.flexMiddle)}>
               <Avatar className={classes.lightGreen}>
-                <TrendingDownOutlined />
+                <TrendingUpOutlined />
               </Avatar>
               <span>{"  "}</span>
               12%

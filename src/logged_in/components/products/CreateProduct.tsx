@@ -96,7 +96,6 @@ const CreateProduct = () => {
     document.title = "NAMCOR - New product";
     if (store.isEditProduct) {
       setProduct(store.getContent);
-      console.log("Product: ", store.getContent);
     }
     return () => {
       store.clearIsEditProduct();
@@ -114,13 +113,19 @@ const CreateProduct = () => {
   const onProductAdd = async () => {
     console.log("Adding product...");
 
-    const $db = await db.collection("products");
+    const $db = store.isEditProduct
+      ? await db.collection("products").doc(product.id)
+      : await db.collection("products").doc();
     $db
-      .add(product)
-      .then((productRef) => {
-        console.log("Product id: ", productRef.id);
-        // Update ID
-        $db.doc(productRef.id).update({ id: productRef.id });
+      .set(
+        {
+          ...product,
+          id: $db.id,
+        },
+        { merge: true }
+      )
+      .then((success) => {
+        console.log("Product id: ");
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
@@ -130,19 +135,19 @@ const CreateProduct = () => {
   return (
     <Box className={classes.root}>
       <PageToolbar
-        title="Add New Product"
+        title="Add product"
         buttons={
           <>
-            <Button className={classes.margins} variant="text" color="primary">
+            {/* <Button className={classes.margins} variant="text" color="primary">
               Save to Draft
-            </Button>
+            </Button> */}
             <Button
               variant="contained"
               color="primary"
               type="submit"
               form="productForm"
             >
-              Save and Upload
+              Save
             </Button>
           </>
         }

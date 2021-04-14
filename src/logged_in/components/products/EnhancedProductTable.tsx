@@ -229,6 +229,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   onViewProduct: (product: Product) => void;
+  onEditProduct: (product: Product) => void;
+  onDeleteProduct: (product: Product) => void;
   data: Product[];
 }
 
@@ -241,7 +243,7 @@ export default function EnhancedProductTable(props: Props) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const { onViewProduct, data: rows } = props;
+  const { onViewProduct, onEditProduct, onDeleteProduct, data: rows } = props;
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -380,6 +382,8 @@ export default function EnhancedProductTable(props: Props) {
                       <TableCell align="right">
                         <ProductMenuComp
                           onViewProduct={onViewProduct}
+                          onEditProduct={onEditProduct}
+                          onDeleteProduct={onDeleteProduct}
                           row={row}
                         />
                       </TableCell>

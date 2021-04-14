@@ -32,25 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
+interface Props {
+  requestedProducts: any;
 }
 
-const QuoteRequestContent = () => {
+const QuoteRequestContent = (props: Props) => {
   const classes = useStyles();
-  const rows = [
-    createData("Petrol", 15900, 6.0, 16.2, 4.0),
-    createData("Paraffin", 23752, 9.0, 9, 4.3),
-    createData("Diesel", 26200, 16.0, 15, 6.0),
-    createData("Petrol (High octane)", 305, 3.7, 18, 4.3),
-    createData("Butane", 356000, 16.0, 32, 3.9),
-  ];
+  const { requestedProducts: rows } = props;
 
   useEffect(() => {
     document.title = "NAMCOR - Sales and Purchase Details";
@@ -105,18 +93,16 @@ const QuoteRequestContent = () => {
                   <TableCell>Product</TableCell>
                   <TableCell align="right">Item number</TableCell>
                   <TableCell align="right">Quantity&nbsp;(kl)</TableCell>
-                  <TableCell align="right">Price per litre&nbsp;(N$)</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
+                {rows.map((row: any) => (
+                  <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {row.productName}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.id}</TableCell>
+                    <TableCell align="right">{row.quantity}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
