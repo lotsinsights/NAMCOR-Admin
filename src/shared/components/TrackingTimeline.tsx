@@ -44,25 +44,25 @@ const TrackingTimeline = () => {
     {
       time: "9:30 am",
       title: "Pending",
-      description: "Because you need strength",
+      description: "Your order is pending",
       isChecked: false,
     },
     {
       time: "10:30 am",
-      title: "Eat",
-      description: "Because you need strength",
+      title: "Loading fuel",
+      description: "Your order is being loaded",
       isChecked: true,
     },
     {
       time: "11:30 am",
-      title: "Sleep",
-      description: "Rest",
+      title: "In Transit",
+      description: "Your order is in transit",
       isChecked: true,
     },
     {
       time: "12:30 am",
-      title: "Gym",
-      description: "Because you need strength",
+      title: "Delivered",
+      description: "Your order is delivered",
       isChecked: true,
     },
   ];

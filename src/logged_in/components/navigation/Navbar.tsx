@@ -156,11 +156,11 @@ const Navbar = (props: Props) => {
     //   icon: <SettingsOutlined fontSize="small" />,
     //   name: "Settings",
     // },
-    // {
-    //   link: "/admin/chats",
-    //   icon: <ChatOutlined fontSize="small" />,
-    //   name: "Chats",
-    // },
+    {
+      link: "/admin/chats",
+      icon: <ChatOutlined fontSize="small" />,
+      name: "Chats",
+    },
   ];
 
   return (

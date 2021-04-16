@@ -356,7 +356,7 @@ export default function EnhancedProductTable(props: Props) {
                         scope="row"
                         padding="none"
                       >
-                        {row.productAvailabilityStatus ? (
+                        {row.productAvailabilityStatus === "Available" ? (
                           <Chip
                             label={"Available"}
                             style={{
