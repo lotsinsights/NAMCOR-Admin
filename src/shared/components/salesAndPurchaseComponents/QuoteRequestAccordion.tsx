@@ -8,7 +8,9 @@ import { AccordionActions } from "@material-ui/core";
 import {
   CommentOutlined,
   DeleteOutlined,
+  ThumbDown,
   ThumbDownAltOutlined,
+  ThumbUp,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import QuoteRequestContent from "../QuoteRequestContent";
@@ -18,6 +20,9 @@ import { useParams } from "react-router-dom";
 import { db } from "../../services/firebase";
 import MobxFeedbackDialogStore from "../../stores/FeedbackDialogStore";
 import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
+import QuoteRequest from "../../interfaces/QuoteRequest";
+import clsx from "clsx";
+import MobxQuoteRequestStore from "../../stores/QuoteRequestStore";
 
 interface Props {
   expanded: any;
@@ -30,13 +35,14 @@ const QuoteRequestAccordion = (props: Props) => {
   // Stores
   const fileUploadStore = MobxFileUploadDialogStore; // Upload files to firebase
   const feebackStore = MobxFeedbackDialogStore; // Give feedback
+  const requestStore = MobxQuoteRequestStore; // Give feedback
 
   // Props
   const { expanded, accordionName, onChange, classes } = props;
 
   // States
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<QuoteRequest | undefined>();
 
   // Variables
   const { id: docID } = useParams<{ id: string }>();
@@ -69,13 +75,37 @@ const QuoteRequestAccordion = (props: Props) => {
       .onSnapshot((doc) => {
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          setData({ id: docID, ...doc.data() });
+          setData({
+            id: docID,
+            customerName: "",
+            requestNumber: "",
+            issueDate: "",
+            dueDate: "",
+            status: "Pending",
+            requestedProducts: [],
+            ...doc.data(),
+          });
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       });
   }, [hasFetchedData, docID]);
+
+  // Update status
+  const updateStatus = (status: string) => {
+    requestStore.openRequestDialog();
+    updateDBStatusChanges(status);
+  };
+
+  // Update changes on the database
+  const updateDBStatusChanges = async (status: string) => {
+    db.collection(collection)
+      .doc(docID)
+      .update({ status })
+      .then((success) => console.log)
+      .catch((error) => console.log);
+  };
 
   // Checks if the accordion expanded then,
   // fetched data + other tasks.
@@ -135,22 +165,50 @@ const QuoteRequestAccordion = (props: Props) => {
         </Box>
       </AccordionDetails>
       <AccordionActions className={classes.accordionActions}>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<ThumbUpAltOutlined />}
-        >
-          Approve Request
-        </Button>
-        <Button
-          variant="text"
-          color="default"
-          className={classes.button}
-          startIcon={<ThumbDownAltOutlined />}
-        >
-          Reject Request
-        </Button>
+        {data?.status === "Approved" ? (
+          <Button
+            variant="text"
+            color="default"
+            className={clsx(classes.button, classes.approved)}
+            startIcon={<ThumbUp />}
+            onClick={() => updateStatus("Pending")}
+          >
+            Approved
+          </Button>
+        ) : (
+          <Button
+            variant="text"
+            color="default"
+            className={classes.button}
+            startIcon={<ThumbUpAltOutlined />}
+            onClick={() => updateStatus("Approved")}
+          >
+            Approve Request
+          </Button>
+        )}
+
+        {data?.status === "Rejected" ? (
+          <Button
+            variant="text"
+            color="default"
+            className={clsx(classes.button, classes.rejected)}
+            startIcon={<ThumbDown />}
+            onClick={() => updateStatus("Pending")}
+          >
+            Rejected
+          </Button>
+        ) : (
+          <Button
+            variant="text"
+            color="default"
+            className={classes.button}
+            startIcon={<ThumbDownAltOutlined />}
+            onClick={() => updateStatus("Rejected")}
+          >
+            Reject Request
+          </Button>
+        )}
+
         <Button
           variant="text"
           color="default"

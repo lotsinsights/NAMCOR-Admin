@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import SearchField from "../../../shared/components/SearchField";
 import MobxInvoiceStore from "../../../shared/stores/InvoiceStore";
-import InvoiceTableColumn from "../../../shared/interfaces/InvoiceTableColumn";
-import MenuComp from "../../../shared/components/MenuComp";
-import RequestsTable from "./RequestsTable";
 import Button from "@material-ui/core/Button";
 import PageToolbar from "../../../shared/components/PageToolbar";
 import { useHistory } from "react-router-dom";
 import { quote_request } from "../../dummy_data/dummy_data";
 import QuoteRequestTableColumn from "../../../shared/interfaces/QuoteRequestTableColumn";
-import QuoteRequestMenuComp from "./QuoteRequestMenuComp";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
-import Quote from "../../../shared/interfaces/Quote";
 import QuoteRequest from "../../../shared/interfaces/QuoteRequest";
 import { db } from "../../../shared/services/firebase";
 import EnhancedRequestTable from "./EnhancedRequestTable";
+import Container from "@material-ui/core/Container";
+import ContainterComp from "../../../shared/components/ContainterComp";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(3, 10),
+    // padding: theme.spacing(3, 10),
   },
   flexCenter: {
     display: "flex",
@@ -95,57 +92,39 @@ const QouteRequests = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <PageToolbar
-        title="Quote Requests"
-        buttons={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push("/admin/create-product")}
-          >
-            + New Quote Request
-          </Button>
-        }
-      />
+    <ContainterComp>
+      <Box className={classes.root}>
+        {/* <PageToolbar
+            title="Quote Requests"
+            buttons={
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push("/admin/create-product")}
+              >
+                + New Quote Request
+              </Button>
+            }
+          /> */}
 
-      <Box className={classes.flexCenter}>
-        <SearchField
-          data={quote_request}
-          feature={"customerName"}
-          onChange={(event: any, value: any) =>
-            handleSearchChange(event, value)
-          }
-        />
-      </Box>
-
-      {/* <Box className={classes.box}>
-        <TableFilter
-          activeFilters={activeFilters}
-          setActiveFilters={setActiveFilters}
-          order={order}
-          setOrder={setOrder}
-          label={orderBy}
-          setLabel={setOrderBy}
-          arrayOfLabels={arrayOfLabels()}
-        />
-      </Box> */}
-
-      {/* <Box className={classes.box}>
-        <RequestsTable columns={columns} rows={qouteRequests}>
-          <QuoteRequestMenuComp
-            onViewRequest={() => history.push("/admin/sales-purchase-details")}
+        <Box className={classes.flexCenter}>
+          <SearchField
+            data={quote_request}
+            feature={"customerName"}
+            onChange={(event: any, value: any) =>
+              handleSearchChange(event, value)
+            }
           />
-        </RequestsTable>
-      </Box> */}
+        </Box>
 
-      <Box className={classes.box}>
-        <EnhancedRequestTable
-          onViewRequest={onViewQuoteRequest}
-          data={qouteRequests}
-        />
+        <Box className={classes.box}>
+          <EnhancedRequestTable
+            onViewRequest={onViewQuoteRequest}
+            data={qouteRequests}
+          />
+        </Box>
       </Box>
-    </Box>
+    </ContainterComp>
   );
 };
 

@@ -15,6 +15,7 @@ import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAcc
 import Quote from "../../../shared/interfaces/Quote";
 import { db } from "../../../shared/services/firebase";
 import EnhancedQuoteTable from "./EnhancedQuoteTable";
+import ContainterComp from "../../../shared/components/ContainterComp";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -93,8 +94,8 @@ const Quotes = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <PageToolbar
+    <ContainterComp>
+      {/* <PageToolbar
         title="Quote"
         buttons={
           <Button
@@ -105,7 +106,7 @@ const Quotes = () => {
             + New Quote
           </Button>
         }
-      />
+      /> */}
 
       <Box className={classes.flexCenter}>
         <SearchField
@@ -126,7 +127,7 @@ const Quotes = () => {
       <Box className={classes.box}>
         <EnhancedQuoteTable onViewQuote={onViewQuote} data={quotes} />
       </Box>
-    </Box>
+    </ContainterComp>
   );
 };
 

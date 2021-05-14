@@ -89,6 +89,28 @@ const styles = (theme: any) => ({
         paddingTop: `${theme.spacing(14)}px !important`,
       },
     },
+
+    // Scrollbars
+    "*::-webkit-scrollbar": {
+      width: "16px",
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+      background: "none",
+      border: "none",
+    },
+    "*::-webkit-scrollbar-thumb": {
+      // backgroundColor: "rgba(0,0,0,.1)",
+      // outline: "1px solid slategrey",
+      background: "#868686",
+      backgroundClip: "padding-box",
+      border: "4px solid transparent",
+      "-webkit-border-radius": "8px",
+      borderRadius: "8px",
+      "-webkit-box-shadow": "none",
+      boxShadow: "none",
+      minHeight: "50px",
+    },
   },
 });
 

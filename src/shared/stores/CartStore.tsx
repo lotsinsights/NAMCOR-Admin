@@ -16,6 +16,8 @@ class CartStore {
     //   "https://images.pexels.com/photos/9796/car-refill-transportation-transport.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   };
 
+  products: Product[] = [this.content];
+
   constructor() {
     makeAutoObservable(this);
   }

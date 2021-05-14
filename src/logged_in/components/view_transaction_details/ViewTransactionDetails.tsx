@@ -11,14 +11,16 @@ import PurchaseOrderAccordion from "../../../shared/components/salesAndPurchaseC
 import SalesOrderAccordion from "../../../shared/components/salesAndPurchaseComponents/SalesOrderAccordion";
 import { observer } from "mobx-react";
 import MobxActiveSalesAccordionStore from "../../../shared/stores/ActiveSalesAccordionStore";
-import FuelOrderAccordion from "../../../shared/components/salesAndPurchaseComponents/FuelOrderAccordion";
 import { DeleteOutlined } from "@material-ui/icons";
+import { grey } from "@material-ui/core/colors";
+import InfoDrawer from "./InfoDrawer";
+import ContainterComp from "../../../shared/components/ContainterComp";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
-      padding: theme.spacing(3, 10),
+      // width: "100%",
+      // padding: theme.spacing(3, 10),
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
@@ -42,6 +44,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       margin: theme.spacing(1),
+    },
+    approved: {
+      // backgroundColor: theme.palette.success.main,
+      color: theme.palette.success.main,
+    },
+    rejected: {
+      // backgroundColor: theme.palette.error.main,
+      color: theme.palette.error.main,
     },
   })
 );
@@ -68,77 +78,80 @@ const ViewTransactionDetails = observer(() => {
   };
 
   return (
-    <div className={classes.root}>
-      <PageToolbar
-        // title="Sales and Purchase details"
-        buttons={
-          <>
-            <Button
-              style={{ marginRight: 20 }}
-              variant="text"
-              color="primary"
-              // className={classes.button}
-              startIcon={<DeleteOutlined />}
-            >
-              Delete
-            </Button>
+    <ContainterComp>
+      <div className={classes.root}>
+        <PageToolbar
+          // title="Sales and Purchase details"
+          buttons={
+            <>
+              <Button
+                style={{ marginRight: 20 }}
+                variant="text"
+                color="primary"
+                // className={classes.button}
+                startIcon={<DeleteOutlined />}
+              >
+                Delete
+              </Button>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.goBack()}
-            >
-              Go Back
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.goBack()}
+              >
+                Go Back
+              </Button>
+              {/* 
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push("/admin/create-product")}
+              >
+                Save and update
+              </Button> */}
+            </>
+          }
+        />
 
-            {/* <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.push("/admin/create-product")}
-            >
-              Save and update
-            </Button> */}
-          </>
-        }
-      />
-
-      <QuoteRequestAccordion
-        expanded={expanded}
-        accordionName={"requests"}
-        onChange={handleChange("requests")}
-        classes={classes}
-      />
-      <QuoteAccordion
-        expanded={expanded}
-        accordionName={"quotes"}
-        onChange={handleChange("quotes")}
-        classes={classes}
-      />
-      <PurchaseOrderAccordion
-        expanded={expanded}
-        accordionName={"purchases"}
-        onChange={handleChange("purchases")}
-        classes={classes}
-      />
-      <SalesOrderAccordion
-        expanded={expanded}
-        accordionName={"sales"}
-        onChange={handleChange("sales")}
-        classes={classes}
-      />
-      <InvoiceAccordion
-        expanded={expanded}
-        accordionName={"invoices"}
-        onChange={handleChange("invoices")}
-        classes={classes}
-      />
-      <ProofOfPaymentAccordion
-        expanded={expanded}
-        accordionName={"pop"}
-        onChange={handleChange("pop")}
-        classes={classes}
-      />
-    </div>
+        <InfoDrawer />
+        <QuoteRequestAccordion
+          expanded={expanded}
+          accordionName={"requests"}
+          onChange={handleChange("requests")}
+          classes={classes}
+        />
+        <QuoteAccordion
+          expanded={expanded}
+          accordionName={"quotes"}
+          onChange={handleChange("quotes")}
+          classes={classes}
+        />
+        <PurchaseOrderAccordion
+          expanded={expanded}
+          accordionName={"purchases"}
+          onChange={handleChange("purchases")}
+          classes={classes}
+        />
+        <SalesOrderAccordion
+          expanded={expanded}
+          accordionName={"sales"}
+          onChange={handleChange("sales")}
+          classes={classes}
+        />
+        <InvoiceAccordion
+          expanded={expanded}
+          accordionName={"invoices"}
+          onChange={handleChange("invoices")}
+          classes={classes}
+        />
+        <ProofOfPaymentAccordion
+          expanded={expanded}
+          accordionName={"pop"}
+          onChange={handleChange("pop")}
+          classes={classes}
+        />
+      </div>
+    </ContainterComp>
   );
 });
 

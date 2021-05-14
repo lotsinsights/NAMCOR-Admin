@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     marginBottom: theme.spacing(3),
   },
+
+  title: {
+    fontSize: "1.1rem",
+    fontWeight: theme.typography.fontWeightRegular,
+  },
 }));
 
 interface Props {
@@ -23,7 +28,7 @@ const PageToolbar = (props: Props) => {
   const { title, buttons } = props;
   return (
     <Box className={classes.toolbar}>
-      <Typography variant="h5" component="h2">
+      <Typography variant="h5" component="h2" className={classes.title}>
         {title}
       </Typography>
       <Box>{buttons}</Box>

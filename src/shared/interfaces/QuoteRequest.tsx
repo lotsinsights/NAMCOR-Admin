@@ -8,6 +8,8 @@ interface QuoteRequest {
   description?: string;
   amount?: number;
   quotations?: any[];
+  attachments?: any[];
+  requestedProducts?: any[];
 }
 
 export default QuoteRequest;

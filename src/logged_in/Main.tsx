@@ -1,14 +1,23 @@
+import React, { lazy, Suspense, useState } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import withStyles from "@material-ui/styles/withStyles";
-import React, { lazy, Suspense } from "react";
+import MenuIcon from "@material-ui/icons/Menu";
+import Toolbar from "@material-ui/core/Toolbar";
+import Navbar from "./components/navigation/Navbar";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import LinearIndeterminate from "../shared/components/LinearIndeterminate";
 import UpdateTrackingDialog from "../shared/components/UpdateTrackingDialog";
-import Navbar from "./components/navigation/Navbar";
+import UpdateQuoteStatusDialog from "./components/quote_requests/UpdateQuoteStatusDialog";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+
+const drawerWidth = 240;
 
 const styles = (theme: any) => ({
   root: {
     display: "flex",
-    height: "100%",
+    // height: "100%",
   },
   content: {
     flexGrow: 1,
@@ -17,6 +26,19 @@ const styles = (theme: any) => ({
     height: "100%",
     // padding: theme.spacing(3),
   },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  toolbar: theme.mixins.toolbar,
 });
 
 // Lazy load components
@@ -65,12 +87,34 @@ interface Props {
 function Main(props: Props) {
   const { classes } = props;
   let { path } = useRouteMatch();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
     <div className={classes.root}>
-      <Navbar />
-
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Navbar handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
       <main className={classes.content}>
+        <div className={classes.toolbar} />
         <Switch>
           <Route exact path={`${path}`}>
             <Redirect to={`${path}/dashboard`} />
@@ -161,6 +205,9 @@ function Main(props: Props) {
       <FeedbackDialog />
       <FileUploadDialog />
       <UpdateTrackingDialog />
+      <UpdateQuoteStatusDialog />
+
+      {/* Drawer */}
     </div>
   );
 }

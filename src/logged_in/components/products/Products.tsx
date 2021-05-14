@@ -1,7 +1,10 @@
+import React, { useEffect, useState } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import { useEffect, useState } from "react";
 import SearchField from "../../../shared/components/SearchField";
 
 import {
@@ -18,10 +21,11 @@ import Button from "@material-ui/core/Button";
 import { db } from "../../../shared/services/firebase";
 import EnhancedProductTable from "./EnhancedProductTable";
 import ErrorBoundary from "../../../shared/components/ErrorBoundary";
+import ContainterComp from "../../../shared/components/ContainterComp";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(3, 10),
+    // padding: theme.spacing(3, 10),
   },
   flexCenter: {
     display: "flex",
@@ -50,7 +54,6 @@ const Products = () => {
   const store = MobxProductStore;
   const history = useHistory();
   // TableFilter states
-  const [activeFilters, setActiveFilters] = useState(0);
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Product>("productDescription");
   const [products, setProducts] = useState<Product[]>([]);
@@ -99,52 +102,47 @@ const Products = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <PageToolbar
-        title="Products"
-        buttons={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push("/admin/create-product")}
-          >
-            + New Product
-          </Button>
-        }
-      />
-
-      <Box className={classes.flexCenter}>
-        <ErrorBoundary>
-          <SearchField
-            data={products}
-            feature={"productName"}
-            onChange={(event: any, value: any) =>
-              handleSearchChange(event, value)
+    <ContainterComp>
+      <Box className={classes.root}>
+        {/* <PageToolbar
+            title="Products"
+            buttons={
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push("/admin/create-product")}
+              >
+                + New Product
+              </Button>
             }
+          /> */}
+
+        <Box className={classes.flexCenter}>
+          <ErrorBoundary>
+            <SearchField
+              data={products}
+              feature={"productName"}
+              onChange={(event: any, value: any) =>
+                handleSearchChange(event, value)
+              }
+            />
+          </ErrorBoundary>
+        </Box>
+
+        <Box className={classes.box}>
+          <EnhancedProductTable
+            onViewProduct={onViewProduct}
+            onEditProduct={onEditProduct}
+            onDeleteProduct={onDeleteProduct}
+            data={rows}
           />
-        </ErrorBoundary>
-      </Box>
+        </Box>
 
-      {/* <Box className={classes.box}>
-        <Table columns={columns} rows={rows}>
-          <ProductMenuComp onViewProduct={setSingleProductData} />
-        </Table>
-        <SingleProductDialog store={store} onClose={() => store.setClose()} />
-      </Box> */}
-
-      <Box className={classes.box}>
-        <EnhancedProductTable
-          onViewProduct={onViewProduct}
-          onEditProduct={onEditProduct}
-          onDeleteProduct={onDeleteProduct}
-          data={rows}
-        />
+        <Box>
+          <SingleProductDialog store={store} onClose={() => store.setClose()} />
+        </Box>
       </Box>
-
-      <Box>
-        <SingleProductDialog store={store} onClose={() => store.setClose()} />
-      </Box>
-    </Box>
+    </ContainterComp>
   );
 };
 export default Products;

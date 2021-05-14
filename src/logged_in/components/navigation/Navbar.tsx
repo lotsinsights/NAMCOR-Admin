@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { useTheme, withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import MuiDrawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -11,26 +11,33 @@ import { ReceiptOutlined } from "@material-ui/icons";
 import { SupervisorAccountOutlined } from "@material-ui/icons";
 import { SettingsOutlined } from "@material-ui/icons";
 import { ChatOutlined } from "@material-ui/icons";
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
 import ActiveUser from "./ActiveUser";
 import { NavLink, useRouteMatch } from "react-router-dom";
-import { Collapse } from "@material-ui/core";
+import { Collapse, Hidden } from "@material-ui/core";
 import clsx from "clsx";
 
 const drawerWidth = 240;
 
 const styles = (theme: any) => ({
   root: {
-    display: "flex",
-    width: drawerWidth,
+    // display: "flex",
+    // width: drawerWidth,
   },
   hide: {
     display: "none",
   },
   paper: {
     width: drawerWidth,
-    backgroundColor: "#F2F2F2",
+    backgroundColor: "#FFF",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
     border: 0,
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
   toolbar: {
     display: "flex",
@@ -40,7 +47,7 @@ const styles = (theme: any) => ({
     ...theme.mixins.toolbar,
   },
   listItem: {
-    color: "#1F3265",
+    color: "#222",
   },
   removeTextDecoration: {
     textDecoration: "none",
@@ -48,7 +55,7 @@ const styles = (theme: any) => ({
   activeTab: {
     display: "block",
     position: "relative" as "relative",
-    backgroundColor: "#EDEFF4",
+    backgroundColor: "#f9f9f9",
     "&::before": {
       content: '""',
       position: "absolute",
@@ -94,10 +101,14 @@ const styles = (theme: any) => ({
 interface Props {
   // selectedTab: string;
   classes: any;
+  mobileOpen: boolean;
+  handleDrawerToggle: () => void;
 }
 
 const Navbar = (props: Props) => {
-  const { classes } = props;
+  const { classes, handleDrawerToggle, mobileOpen } = props;
+
+  const theme = useTheme();
 
   // Will be use to make website more accessible by screen readers
   const links: any = useRef([]);
@@ -163,13 +174,9 @@ const Navbar = (props: Props) => {
     },
   ];
 
-  return (
-    <MuiDrawer
-      variant="permanent"
-      elevation={0}
-      classes={{ paper: classes.paper }}
-      className={classes.root}
-    >
+  // Drawer
+  const drawer = (
+    <div>
       <div className={classes.toolbar}>
         <ActiveUser />
       </div>
@@ -222,7 +229,52 @@ const Navbar = (props: Props) => {
           </Fragment>
         ))}
       </List>
-    </MuiDrawer>
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window.document.body : undefined;
+
+  return (
+    <>
+      {/* <MuiDrawer
+        variant="permanent"
+        elevation={0}
+        classes={{ paper: classes.paper }}
+        className={classes.root}
+      >
+        {drawer}
+      </MuiDrawer> */}
+
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <MuiDrawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{ paper: classes.paper }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </MuiDrawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <MuiDrawer
+            variant="permanent"
+            elevation={0}
+            classes={{ paper: classes.paper }}
+            className={classes.root}
+          >
+            {drawer}
+          </MuiDrawer>
+        </Hidden>
+      </nav>
+    </>
   );
 };
 

@@ -240,7 +240,7 @@ export default function EnhancedProductTable(props: Props) {
   const [orderBy, setOrderBy] = useState<keyof Product>("productName");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const { onViewProduct, onEditProduct, onDeleteProduct, data: rows } = props;

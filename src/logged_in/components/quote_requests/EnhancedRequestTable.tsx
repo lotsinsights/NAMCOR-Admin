@@ -30,6 +30,8 @@ import {
 import Chip from "@material-ui/core/Chip";
 import QuoteRequest from "../../../shared/interfaces/QuoteRequest";
 import QuoteRequestMenuComp from "./QuoteRequestMenuComp";
+import formatDate from "../../../shared/functions/FormatDate";
+import RequestsStatusChipColor from "./RequestsStatusChip";
 
 interface HeadCell {
   disablePadding: boolean;
@@ -249,7 +251,7 @@ export default function EnhancedRequestTable(props: Props) {
   const [orderBy, setOrderBy] = useState<keyof QuoteRequest>("customerName");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const { onViewRequest, data: rows } = props;
@@ -365,23 +367,7 @@ export default function EnhancedRequestTable(props: Props) {
                         scope="row"
                         padding="none"
                       >
-                        {row.status ? (
-                          <Chip
-                            label={"Available"}
-                            style={{
-                              backgroundColor: "#219653",
-                              color: "white",
-                            }}
-                          />
-                        ) : (
-                          <Chip
-                            label={"Out of stock"}
-                            style={{
-                              backgroundColor: "#FF042B",
-                              color: "white",
-                            }}
-                          />
-                        )}
+                        <RequestsStatusChipColor status={row.status} />
                       </TableCell>
                       <TableCell align="left">{row.customerName}</TableCell>
                       <TableCell align="left">{row.requestNumber}</TableCell>

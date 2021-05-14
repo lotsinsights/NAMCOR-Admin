@@ -9,13 +9,10 @@ import {
   BuildOutlined,
   CloudUploadOutlined,
   CommentOutlined,
-  DeleteOutlined,
-  ThumbDownAltOutlined,
-  ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import AttachedDocument from "../AttachedDocument";
 import MobxFileUploadDialogStore from "../../stores/FileUploadDialogStore";
-import React, { useState, Fragment, useCallback, useEffect } from "react";
+import { useState, Fragment, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../services/firebase";
 
@@ -49,8 +46,6 @@ const QuoteAccordion = (props: Props) => {
     fileUploadStore.setDocumentID(docID);
     // Open dialog
     fileUploadStore.openFileUploadDialog();
-
-    console.warn("Remove this function from component");
   };
 
   // Fetch data from firebase

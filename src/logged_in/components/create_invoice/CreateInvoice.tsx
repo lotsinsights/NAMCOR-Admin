@@ -1,21 +1,11 @@
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionActions from "@material-ui/core/AccordionActions";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CompanyDetails from "./CompanyDetails";
 import InvoiceContent from "./InvoiceContent";
-import InvoicePOP from "./InvoicePOP";
 import PageToolbar from "../../../shared/components/PageToolbar";
+import InvoicePOP from "./InvoicePOP";
+import CompanyDetails from "./CompanyDetails";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -104,11 +94,9 @@ const CreateInvoice = () => {
         }
       />
 
-      <CompanyDetails classes={classes} />
-
-      <InvoiceContent classes={classes} />
-
-      <InvoicePOP classes={classes} />
+      <CompanyDetails />
+      <InvoiceContent />
+      {/* <InvoicePOP classes={classes} /> */}
     </Box>
   );
 };

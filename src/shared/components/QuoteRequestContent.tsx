@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(4),
     },
+    details: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: theme.spacing(4),
+    },
     button: {
       margin: theme.spacing(1),
     },
@@ -46,41 +51,43 @@ const QuoteRequestContent = (props: Props) => {
   }, []);
 
   return (
-    <Card variant="outlined" className={classes.root}>
+    <Box className={classes.root}>
       {/* Request metadata */}
-      <CardContent>
-        <Typography variant="button" color="textSecondary" component="p">
-          Summary
-        </Typography>
+      <Box className={classes.details}>
         <Box>
-          <Typography variant="body1" component="p">
-            Created on: <strong>12 Nov 2020</strong>
+          <Typography variant="button" color="textSecondary" component="p">
+            Summary
           </Typography>
-          <Typography variant="body1" component="p">
-            Approved on: <strong>13 Nov 2020</strong>
-          </Typography>
-          <Typography variant="body1" component="p">
-            Quotation: <strong>Missing</strong>
-          </Typography>
+          <Box>
+            <Typography variant="body1" component="p">
+              Created on: <strong>12 Nov 2020</strong>
+            </Typography>
+            <Typography variant="body1" component="p">
+              Approved on: <strong>13 Nov 2020</strong>
+            </Typography>
+            <Typography variant="body1" component="p">
+              Quotation: <strong>Missing</strong>
+            </Typography>
+          </Box>
         </Box>
-      </CardContent>
-      {/* Company details */}
-      <CardContent>
-        <Typography variant="button" color="textSecondary" component="p">
-          Company Details
-        </Typography>
-        {/* <hr /> */}
+        {/* Company details */}
         <Box>
-          <Typography variant="body1" component="p">
-            15 Luther Street, Windhoek
+          <Typography variant="button" color="textSecondary" component="p">
+            Company Details
           </Typography>
-          <Typography variant="body1" component="p">
-            061 205 4111
-          </Typography>
+          {/* <hr /> */}
+          <Box>
+            <Typography variant="body1" component="p">
+              15 Luther Street, Windhoek
+            </Typography>
+            <Typography variant="body1" component="p">
+              061 205 4111
+            </Typography>
+          </Box>
         </Box>
-      </CardContent>
+      </Box>
       {/* Request body */}
-      <CardContent>
+      <Box>
         <Typography variant="button" color="textSecondary" component="p">
           Requested Items
         </Typography>
@@ -109,8 +116,8 @@ const QuoteRequestContent = (props: Props) => {
             </Table>
           </TableContainer>
         </Box>
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 };
 
