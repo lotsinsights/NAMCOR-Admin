@@ -27,6 +27,7 @@ interface Props {
 }
 
 const FuelOrderAccordion = (props: Props) => {
+  // Props
   const { expanded, accordionName, onChange, classes } = props;
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [data, setData] = useState<any>();
