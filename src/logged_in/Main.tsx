@@ -68,6 +68,10 @@ const Settings = lazy(() => import("./components/settings/Settings"));
 const Accounts = lazy(() => import("./components/accounts/Accounts"));
 const Chats = lazy(() => import("./components/chats/Chats"));
 const CreateAccount = lazy(() => import("./components/accounts/CreateAccount"));
+const Fuel = lazy(() => import("./components/fuel/Fuel"));
+const GroupedOrders = lazy(
+  () => import("./components/grouped-orders/GroupedOrders")
+);
 
 // Import Dialogs
 const FileViewerDialog = lazy(
@@ -127,6 +131,16 @@ function Main(props: Props) {
           <Route exact path={`${path}/products`}>
             <Suspense fallback={<LinearIndeterminate />}>
               <Products />
+            </Suspense>
+          </Route>
+          <Route exact path={`${path}/grouped-orders`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <GroupedOrders />
+            </Suspense>
+          </Route>
+          <Route exact path={`${path}/fuel`}>
+            <Suspense fallback={<LinearIndeterminate />}>
+              <Fuel />
             </Suspense>
           </Route>
           <Route exact path={`${path}/create-product`}>

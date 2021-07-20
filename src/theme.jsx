@@ -2,12 +2,9 @@ import { createMuiTheme, responsiveFontSizes } from "@material-ui/core";
 
 // colors
 // Namcor colors
-const primary = "#fe1224";
-// const secondary = "#FFBA0E";
+const primary = "#e2241a";
 const secondary = "#ffc90a"
-// GIZ colors
-// const primary = "#1F3265";
-// const secondary = "#4829B2";
+
 
 const black = "#343a40";
 const darkBlack = "rgb(36, 40, 44)";
